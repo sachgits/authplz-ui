@@ -16,7 +16,9 @@ class LoginForm extends React.Component {
     this.state = {
       email: '',
       password: '',
-      csrf: ''
+      csrf: '',
+      successMessage: '',
+      errorMessage: ''
     }
     // Bind handlers
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -35,13 +37,20 @@ class LoginForm extends React.Component {
 
   // Handle submit events
   handleSubmit(event) {
-    console.log('Text field value is: ' + this.state.email);
+    AuthPlz.Login(this.state.email, this.state.password).then((res) => {
+      this.setState({successMessage: res.data.message})
+    }, (err) => {
+      this.setState({errorMessage: err})
+    })
   }
 
   render() {
     return (
       <div>
-        <Col md={8} mdOffset={2}>
+        <Col md={2} />
+        <Col md={8}>
+          <Alert bsStyle="success" hidden={!this.state.successMessage}>{this.state.successMessage}</Alert>
+          <Alert bsStyle="danger" hidden={!this.state.errorMessage}>{this.state.errorMessage}</Alert>
           <Form horizontal>
             <FormGroup controlId="formHorizontalEmail">
               <Col componentClass={ControlLabel} md={2}>

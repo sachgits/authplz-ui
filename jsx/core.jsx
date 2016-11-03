@@ -5,6 +5,7 @@ import { BrowserHistory } from 'react-history'
 
 import { LoginForm } from './loginform.jsx'
 import { CreateUserForm } from './createform.jsx'
+import { AccountView } from './accountview.jsx'
 
 import jQuery from 'jquery';
 import Tether from 'tether';
@@ -22,6 +23,7 @@ const App = React.createClass({
         <ul>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/create">Create User</Link></li>
+          <li><Link to="/account">View Account</Link></li>
         </ul>
 
         {/*
@@ -41,6 +43,7 @@ render((
     <Route path="/" component={App}>
       <Route path="login" component={LoginForm} />
       <Route path="create" component={CreateUserForm} />
+      <Route path="account" component={AccountView} />
     </Route>
   </Router>
 ), document.getElementById('react-root'))

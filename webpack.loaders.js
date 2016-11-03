@@ -1,7 +1,7 @@
 
 module.exports = [
     {
-        test: /\.jsx?$/,
+        test: /\.(jsx|js)?$/,
         exclude: /(node_modules|bower_components|public|static)/,
         loader: "babel"
     },
@@ -47,5 +47,9 @@ module.exports = [
     { 
         test: /bootstrap\/.+\.(jsx|js)$/,
         loader: 'imports?jQuery=jquery,$=jquery,this=>window'
+    },
+    { 
+        test: /authplz\/.+\.(js)$/,
+        loader: 'imports?this=>window'
     }
 ];
