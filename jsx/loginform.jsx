@@ -40,6 +40,7 @@ class LoginForm extends React.Component {
     AuthPlz.Login(this.state.email, this.state.password).then((res) => {
       this.setState({successMessage: res.data.message})
     }, (err) => {
+      console.log(err)
       this.setState({errorMessage: err})
     })
   }

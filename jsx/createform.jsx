@@ -67,16 +67,17 @@ class CreateUserForm extends React.Component {
 
   // Handle submit events
   handleSubmit(event) {
-    this.setState({successMessage: '', errorMessage: ''})
+    this.setState({successMessage: '', errorMessage: 'Password entries must match'})
     if(this.state.passwordOne !== this.state.passwordTwo) {
       console.log("Password mismatch")
       return
     }
 
     AuthPlz.CreateUser(this.state.email, this.state.passwordOne).then((res) => {
-      this.setState({successMessage: res})
+      //TODO: handle 202 and required 2fa
+      this.setState({successMessage: res.message})
     }, (res) => {
-      this.setState({errorMessage: res})
+      this.setState({errorMessage: res.message})
     })
   }
 

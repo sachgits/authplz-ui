@@ -8,10 +8,14 @@ class AuthPlzApi {
 
     }
 
-    GetJson(path) {
+    GetJson(path, params) {
+        var queryData = "?"
+        for(let i in params) {
+            queryData += i + "=" + params[i]
+        }
         return new Promise((resolve, reject) => {
             // Call fetch
-            fetch(path, {
+            fetch(path + queryData, {
                 method: 'get',
                 credentials: 'same-origin',
             }).then((res) => { return res.json(); })
@@ -25,10 +29,14 @@ class AuthPlzApi {
     }
 
     // API get helper
-    GetApi(path, data) {
+    GetApi(path, params) {
+        var queryData = "?"
+        for(let i in params) {
+            queryData += i + "=" + params[i]
+        }
         return new Promise((resolve, reject) => {
             // Call fetch
-            fetch(path, {
+            fetch(path + queryData, {
                 method: 'get',
                 credentials: 'same-origin',
             }).then((res) => { return res.json(); })
@@ -84,12 +92,14 @@ class AuthPlzApi {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
-              })
+              }).then((res) => { 
+                return res.json();
+            })
             .then((data) => {
                 if(data.result === "ok") {
-                    resolve(data)
+                    resolve(data.message)
                 } else {
-                    reject(data)
+                    reject(data.message)
                 }
             }, (err) => {
                 console.log("Failed to post to: " + path)
@@ -120,9 +130,6 @@ class AuthPlzApi {
         var formData = new FormData();
         formData.append('email', email);
         formData.append('password', password);
-
-        console.log("Form data: ")
-        console.log(formData)
 
         return new Promise((resolve, reject) => {
             // Call fetch
@@ -161,7 +168,7 @@ class AuthPlzApi {
     }
 
     PostTokenEnrolment(resp) {
-        return this.PostJson('/api/u2f/enrol', {name: name})
+        return this.PostJson('/api/u2f/enrol', resp)
     }
 
 }
