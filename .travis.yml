@@ -23,3 +23,7 @@ deploy:
     repo: ryankurte/authplz-ui
     branch: master
     tags: true
+
+
+notifications:
+  email: false
