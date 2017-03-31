@@ -15,6 +15,7 @@ class CreateUserForm extends React.Component {
     super(props);
     // Create form state
     this.state = {
+      username: '',
       email: '',
       passwordOne: '',
       passwordTwo: '',
@@ -23,6 +24,7 @@ class CreateUserForm extends React.Component {
       errorMessage: ''
     }
     // Bind handlers
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.getEmailValidation = this.getEmailValidation.bind(this);
     this.handlePasswordOneChange = this.handlePasswordOneChange.bind(this);
@@ -33,6 +35,10 @@ class CreateUserForm extends React.Component {
   }
 
   // Handle form changes
+  handleUsernameChange(e) {
+    this.setState({username: e.target.value});
+  }
+
   handleEmailChange(e) {
     this.setState({email: e.target.value});
   }
@@ -73,7 +79,7 @@ class CreateUserForm extends React.Component {
       return
     }
 
-    AuthPlz.CreateUser(this.state.email, this.state.passwordOne).then((res) => {
+    AuthPlz.CreateUser(this.state.username, this.state.email, this.state.passwordOne).then((res) => {
       //TODO: handle 202 and required 2fa
       this.setState({successMessage: res.message})
     }, (res) => {
@@ -89,6 +95,19 @@ class CreateUserForm extends React.Component {
           <Alert bsStyle="success" hidden={!this.state.successMessage}>{this.state.successMessage}</Alert>
           <Alert bsStyle="danger" hidden={!this.state.errorMessage}>{this.state.errorMessage}</Alert>
           <Form horizontal>
+            <FormGroup controlId="formHorizontalUsername">
+              <Col componentClass={ControlLabel} md={2}>
+                Username
+              </Col>
+              <Col md={10}>
+                <FormControl type="username" placeholder="Username" 
+                  value={this.state.username}
+                  onChange={this.handleUsernameChange}
+                />
+                <FormControl.Feedback />
+              </Col>
+            </FormGroup>
+
             <FormGroup controlId="formHorizontalEmail" validationState={this.getEmailValidation()}>
               <Col componentClass={ControlLabel} md={2}>
                 Email

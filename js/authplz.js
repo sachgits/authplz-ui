@@ -122,8 +122,8 @@ class AuthPlzApi {
         return this.GetApi('/api/status')
     }
 
-    CreateUser(email, password) {
-        return this.PostForm('/api/create', {email: email, password: password})
+    CreateUser(username, email, password) {
+        return this.PostForm('/api/create', {username: username, email: email, password: password})
     }
 
     Login(email, password) {
