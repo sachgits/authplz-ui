@@ -7,6 +7,7 @@ import { LoginForm } from './loginform.jsx'
 import { CreateUserForm } from './createform.jsx'
 import { AccountView } from './accountview.jsx'
 import { AddTokenForm } from './addtokenform.jsx'
+import { OAuthAuthorizeForm } from './oauthform.jsx'
 
 import jQuery from 'jquery';
 import Tether from 'tether';
@@ -47,6 +48,7 @@ render((
       <Route path="create" component={CreateUserForm} />
       <Route path="account" component={AccountView} />
       <Route path="u2f-enrol" component={AddTokenForm} />
+      <Route path="oauth-authorize" component={OAuth} />
 
     </Route>
   </Router>

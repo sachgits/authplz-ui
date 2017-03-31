@@ -172,36 +172,58 @@ class AuthPlzApi {
         return this.GetJson('/api/recovery', {email: email})
     }
 
+    // 2FA things
+
+    // Fetch a U2F token enrolment challenge
     GetU2FTokenEnrolment(name) {
         return this.GetJson('/api/u2f/enrol', {name: name})
     }
 
+    // Post a U2F token enrolment response
     PostU2FTokenEnrolment(resp) {
         return this.PostJson('/api/u2f/enrol', resp)
     }
 
+    // Fetch a U2F token authorization challenge
     GetU2FTokenAuthorize(name) {
         return this.GetJson('/api/u2f/authorize', {name: name})
     }
 
+    // Post a U2F token authorization response
     PostU2FTokenAuthorize(resp) {
         return this.PostJson('/api/u2f/authorize', resp)
     }
 
-     GetTOTPTokenEnrolment(name) {
+    // Fetch a TOTP enrolment challenge
+    GetTOTPTokenEnrolment(name) {
         return this.GetJson('/api/totp/enrol', {name: name})
     }
 
-    PostTOTPTokenEnrolment(resp) {
-        return this.PostJson('/api/totp/enrol', resp)
+    // Post a TOTP enrolment response (code generated from challenge secret)
+    PostTOTPTokenEnrolment(code) {
+        return this.PostJson('/api/totp/enrol', {code: code})
     }
 
+    // Post a TOTP authorization
     PostTOTPTokenAuthorize(code) {
         return this.PostJson('/api/totp/authorize', resp)
     }
 
+    // Post a backup code authorization
     PostBackupCodeAuthorize(code) {
         return this.PostJson('/api/backupcode/authorize', resp)
+    }
+
+    // OAuth things
+
+    // Fetch a pending OAuth authorization
+    GetPendingAuthorization() {
+        return this.GetJson('/api/oauth/pending', {})
+    }
+
+    // Post a response to an authorization request
+     PostAuthorizationAccept(accept, state, scopes) {
+        return this.PostJson('/api/oauth/auth', {accept: accept, state: state, scopes: scopes})
     }
 
 }
