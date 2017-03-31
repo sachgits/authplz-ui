@@ -139,6 +139,7 @@ class AuthPlzApi {
                 body: formData
             })
             .then((resp) => {
+                // 200 is ok, 202 returns available 2fa methods
                 if((resp.status == 200) || (resp.status == 202)) {
                     return resp.json().then((data) => {
                         resp.data = data;
@@ -163,12 +164,44 @@ class AuthPlzApi {
         return this.GetJson('/api/account')
     }
 
-    GetTokenEnrolment(name) {
+    PasswordReset(old_pass, new_pass) {
+        return this.GetJson('/api/u2f/enrol', {old_password: old_pass, new_password: new_pass})
+    }
+
+    AccountRecovery(email) {
+        return this.GetJson('/api/recovery', {email: email})
+    }
+
+    GetU2FTokenEnrolment(name) {
         return this.GetJson('/api/u2f/enrol', {name: name})
     }
 
-    PostTokenEnrolment(resp) {
+    PostU2FTokenEnrolment(resp) {
         return this.PostJson('/api/u2f/enrol', resp)
+    }
+
+    GetU2FTokenAuthorize(name) {
+        return this.GetJson('/api/u2f/authorize', {name: name})
+    }
+
+    PostU2FTokenAuthorize(resp) {
+        return this.PostJson('/api/u2f/authorize', resp)
+    }
+
+     GetTOTPTokenEnrolment(name) {
+        return this.GetJson('/api/totp/enrol', {name: name})
+    }
+
+    PostTOTPTokenEnrolment(resp) {
+        return this.PostJson('/api/totp/enrol', resp)
+    }
+
+    PostTOTPTokenAuthorize(code) {
+        return this.PostJson('/api/totp/authorize', resp)
+    }
+
+    PostBackupCodeAuthorize(code) {
+        return this.PostJson('/api/backupcode/authorize', resp)
     }
 
 }

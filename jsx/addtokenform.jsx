@@ -61,7 +61,7 @@ class AddTokenForm extends React.Component {
       }
 
       // Return response
-      AuthPlz.PostTokenEnrolment(resp).then(function registrationSuccess(res) {
+      AuthPlz.PostU2FTokenEnrolment(resp).then(function registrationSuccess(res) {
         console.log("Enrolment complete")
         this.setMessage(res)
         
@@ -72,7 +72,7 @@ class AddTokenForm extends React.Component {
     }
 
     // Request registration
-    AuthPlz.GetTokenEnrolment(this.state.name).then(handleRegistrationRequest.bind(this), function handleError(err) {
+    AuthPlz.GetU2FTokenEnrolment(this.state.name).then(handleRegistrationRequest.bind(this), function handleError(err) {
       this.setMessage("Error fetching challenge from server")
     }.bind(this))
 
