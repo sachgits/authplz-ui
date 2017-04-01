@@ -7,6 +7,10 @@ import { BrowserHistory } from 'react-history'
 import validator from 'validator';
 import { AuthPlz } from '../js/authplz';
 
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import '../scss/main.scss';
+
 import { Col, Form, FormGroup, ControlLabel, FormControl, Checkbox, Button, Alert, HelpBlock } from 'react-bootstrap';
 
 // Create user form component
@@ -90,75 +94,35 @@ class CreateUserForm extends React.Component {
   render() {
     return (
       <div>
-        <Col md={2} />
-        <Col md={8}>
-          <Alert bsStyle="success" hidden={!this.state.successMessage}>{this.state.successMessage}</Alert>
-          <Alert bsStyle="danger" hidden={!this.state.errorMessage}>{this.state.errorMessage}</Alert>
-          <Form horizontal>
-            <FormGroup controlId="formHorizontalUsername">
-              <Col componentClass={ControlLabel} md={2}>
-                Username
-              </Col>
-              <Col md={10}>
-                <FormControl type="username" placeholder="Username" 
-                  value={this.state.username}
-                  onChange={this.handleUsernameChange}
-                />
-                <FormControl.Feedback />
-              </Col>
-            </FormGroup>
+        <TextField id="username" label="Username" 
+          value={this.state.username}
+          onChange={this.handleUsernameChange}
+        />
+        <br />
+        <br />
 
-            <FormGroup controlId="formHorizontalEmail" validationState={this.getEmailValidation()}>
-              <Col componentClass={ControlLabel} md={2}>
-                Email
-              </Col>
-              <Col md={10}>
-                <FormControl type="email" placeholder="Email" 
-                  value={this.state.email}
-                  onChange={this.handleEmailChange}
-                />
-                <FormControl.Feedback />
-              </Col>
-            </FormGroup>
+        <TextField id="email" hintText="Email" 
+          value={this.state.email}
+          onChange={this.handleEmailChange}
+        />
+        <br />
+        <br />
 
-            <FormGroup controlId="formHorizontalPassword" validationState={this.getPasswordValidation()}>
-              <Col componentClass={ControlLabel} md={2}>
-                Password
-              </Col>
-              <Col md={10}>
-                <FormControl type="password" placeholder="Password" 
-                  value={this.state.passwordOne}
-                  onChange={this.handlePasswordOneChange}
-                />
-                <FormControl.Feedback />
-              </Col>
-            </FormGroup>
+        <TextField id="password1" hintText="Password" 
+          value={this.state.passwordOne}
+          onChange={this.handlePasswordOneChange}
+        />
+        <br />
+        <br />
 
-            <FormGroup controlId="formHorizontalPassword" validationState={this.getPasswordValidation()}>
-              <Col componentClass={ControlLabel} md={2}>
-                Password
-              </Col>
-              <Col md={10}>
-                <FormControl type="password" placeholder="Password" 
-                  value={this.state.passwordTwo}
-                  onChange={this.handlePasswordTwoChange}
-                />
-                <FormControl.Feedback />
-                <HelpBlock hidden={!this.showPasswordHelp()}>Password fields must match</HelpBlock>
-              </Col>
-            </FormGroup>
-
-            <div />
-
-            <Col md={12}>
-              <FormGroup>
-                  <Button onClick={this.handleSubmit}>
-                    Create User
-                  </Button>
-              </FormGroup>
-            </Col>
-          </Form>
-        </Col>
+        <TextField id="password2" hintText="Password" 
+          value={this.state.passwordTwo}
+          onChange={this.handlePasswordTwoChange}
+        />
+        <br />
+        <br />
+        
+        <RaisedButton label="Create User" onClick={this.handleSubmit}/>
       </div>
     );
   }

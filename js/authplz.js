@@ -161,7 +161,7 @@ class AuthPlzApi {
     }
 
     Account() {
-        return this.GetJson('/api/account')
+        return this.GetJson('/api/user/account')
     }
 
     PasswordReset(old_pass, new_pass) {
