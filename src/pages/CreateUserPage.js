@@ -1,9 +1,8 @@
 
 import React from 'react'
-import { render } from 'react-dom'
-import validator from 'validator';
-
 import { Grid, Row, Col } from 'react-flexbox-grid';
+
+import validator from 'validator';
 
 import { CreateUserView } from '../components/CreateUserView.js'
 
@@ -13,18 +12,7 @@ class CreateUserPage extends React.Component {
   constructor(props) {
     super(props);
     // Create form state
-    this.state = {
-      username: '',
-      email: '',
-      passwordOne: '',
-      passwordTwo: '',
-      successMessage: '',
-      errors: {
-        username: '',
-        email: '',
-        password: ''
-      },
-    }
+    this.state = {}
 
     this.onSubmit = this.onSubmit.bind(this);
     this.validate = this.validate.bind(this);
@@ -81,7 +69,7 @@ class CreateUserPage extends React.Component {
       <Grid fluid>
         <Row>
           <Col xsOffset={1} xs={10} smOffset={3} sm={6} mdOffset={4} md={4}>
-            <CreateUserView onChange={this.onChange} onSubmit={this.onSubmit} validate={this.validate}/>
+            <CreateUserView onSubmit={this.onSubmit} validate={this.validate}/>
           </Col>
         </Row>
       </Grid>

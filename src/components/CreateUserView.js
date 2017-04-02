@@ -67,20 +67,16 @@ class CreateUserView extends React.Component {
   }
 
   handleSubmit(event) {
-
     let state = this.state
     state.submitted = true
 
     let errors = this.props.validate(state)
     this.setState({submitted: true, errors: errors})
 
-    console.log(errors)
-
     if ((typeof errors === "undefined") || (Object.keys(errors).length === 0)) {
       this.props.onSubmit(this.state)
     }
   }
-
 
   render() {
     return (

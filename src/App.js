@@ -30,7 +30,6 @@ class App extends React.Component {
           </ul>
           <Route path="/create" component={CreateUserPage} />
           <Route path="/login" component={LoginUserPage} />
-          <Route path="/home" component={Home}/>
           </div>
         </HashRouter>
         </div>
@@ -38,7 +37,5 @@ class App extends React.Component {
     );
   }
 }
-
-const Home = () => <h1>Hello from Home!</h1>
 
 export default App;

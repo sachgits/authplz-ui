@@ -13,26 +13,63 @@ class LoginUserView extends React.Component {
     super(props);
     // Create form state
     this.state = {
-      email: '',
+      username: '',
       password: '',
-      successMessage: '',
-      errorMessage: ''
+      errors: {}
+    }
+
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this._handleKeyPress = this._handleKeyPress.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  _handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.handleSubmit(this.state)
+    }
+  }
+
+  handleUsernameChange(e) {
+    let state = this.state
+    state.username = e.target.value
+    this.setState({username: e.target.value, errors: this.props.validate(state)})
+  }
+
+  handlePasswordChange(e) {
+    let state = this.state
+    state.password = e.target.value
+    this.setState({password: e.target.value, errors: this.props.validate(this.state)})
+  }
+
+  handleSubmit(event) {
+    let state = this.state
+    state.submitted = true
+
+    let errors = this.props.validate(state)
+    this.setState({submitted: true, errors: errors})
+
+    if ((typeof errors === "undefined") || (Object.keys(errors).length === 0)) {
+      this.props.onSubmit(this.state)
     }
   }
 
   render() {
     return (
       <div>
-        <TextField id="email" floatingLabelText="Email" 
-          value={this.state.email}
-          onChange={this.handleEmailChange}
+        <TextField id="username" floatingLabelText="Username" 
+          value={this.state.username}
+          onChange={this.handleUsernameChange}
           fullWidth={true}
+          errorText={this.state.errors.username}
         />
 
         <TextField id="password" floatingLabelText="Password" 
           value={this.state.password}
-          onChange={this.handlePasswordOneChange}
+          type="password"
+          onChange={this.handlePasswordChange}
           fullWidth={true}
+          errorText={this.state.errors.password}
         />
         
         <br /><br />
@@ -43,6 +80,11 @@ class LoginUserView extends React.Component {
       </div>
     ) 
   }
+}
+
+LoginUserView.propTypes = {
+  validate: React.PropTypes.func.isRequired,
+  onSubmit: React.PropTypes.func.isRequired,
 }
 
 export {LoginUserView}
