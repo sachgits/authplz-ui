@@ -10,8 +10,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './App.scss';
 
 import { CreateUserPage } from './pages/CreateUserPage.js'
-
 import { LoginUserPage } from './pages/LoginUserPage.js'
+import { SecondFactorPage } from './pages/SecondFactorPage.js'
 
 injectTapEventPlugin();
 
@@ -24,12 +24,13 @@ class App extends React.Component {
         <HashRouter history={BrowserHistory}>
           <div>
           <ul>
-            <li><Link to="/home">Home</Link></li>
-            <li><Link to="/login">Login</Link></li>
             <li><Link to="/create">Create User</Link></li>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/2fa">Choose 2fa</Link></li>
           </ul>
           <Route path="/create" component={CreateUserPage} />
           <Route path="/login" component={LoginUserPage} />
+          <Route path="/2fa" component={SecondFactorPage}/>
           </div>
         </HashRouter>
         </div>

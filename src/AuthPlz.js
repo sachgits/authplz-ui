@@ -1,3 +1,7 @@
+/**
+ * AuthPlz API Wrapper Library
+ * Helpers to simplify writing frontends for the AuthPlz service
+ */
 
 //import u2f from './u2f-api.js';
 

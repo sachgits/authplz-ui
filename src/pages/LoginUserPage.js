@@ -1,7 +1,7 @@
 
 import React from 'react'
-import { Grid, Row, Col } from 'react-flexbox-grid';
 
+import { Centerer } from '../components/Centerer.js'
 import { LoginUserView } from '../components/LoginUserView.js'
 
 import { AuthPlz } from '../AuthPlz.js'
@@ -60,13 +60,9 @@ class LoginUserPage extends React.Component {
 
   render() {
     return (
-      <Grid fluid>
-        <Row>
-          <Col xsOffset={1} xs={10} smOffset={3} sm={6} mdOffset={4} md={4}>
-            <LoginUserView onSubmit={this.onSubmit} validate={this.validate}/>
-          </Col>
-        </Row>
-      </Grid>
+      <Centerer>
+          <LoginUserView onSubmit={this.onSubmit} validate={this.validate}/>
+      </Centerer>
     ) 
   }
 }
