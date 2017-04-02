@@ -30,3 +30,5 @@ setenv.sh
 node_modules/
 static/
 *.tgz
+*.log
+build/

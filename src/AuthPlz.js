@@ -1,11 +1,10 @@
-'use strict';
 
-import u2f from './u2f-api.js';
+//import u2f from './u2f-api.js';
 
 // AuthPlz API interface class
 class AuthPlzApi {
-    constructor() {
-
+    constructor(base) {
+        this.base = base || ""
     }
 
     GetJson(path, params) {
@@ -15,14 +14,14 @@ class AuthPlzApi {
         }
         return new Promise((resolve, reject) => {
             // Call fetch
-            fetch(path + queryData, {
+            fetch(this.base + path + queryData, {
                 method: 'get',
                 credentials: 'same-origin',
             }).then((res) => { return res.json(); })
             .then((data) => {
                 resolve(data)
             }, (err) => {
-                console.log("Failed to get from: " + path + " error: " + err)
+                console.log("Failed to get from: " + this.base + path + " error: " + err)
                 reject("Communication error or bad request")
             })  
         })
@@ -36,7 +35,7 @@ class AuthPlzApi {
         }
         return new Promise((resolve, reject) => {
             // Call fetch
-            fetch(path + queryData, {
+            fetch(this.base + path + queryData, {
                 method: 'get',
                 credentials: 'same-origin',
             }).then((res) => { return res.json(); })
@@ -47,7 +46,7 @@ class AuthPlzApi {
                     reject(data.message)
                 }
             }, (err) => {
-                console.log("Failed to get from: " + path + " error: " + err)
+                console.log("Failed to get from: " + this.base + path + " error: " + err)
                 reject("Communication error or bad request")
             })  
         })
@@ -62,7 +61,7 @@ class AuthPlzApi {
 
         return new Promise((resolve, reject) => {
             // Call fetch
-            fetch(path, {
+            fetch(this.base + path, {
                 method: 'post',
                 credentials: 'same-origin',
                 body: formData
@@ -76,7 +75,7 @@ class AuthPlzApi {
                     reject(data)
                 }
             }, (err) => {
-                console.log("Failed to post to: " + path)
+                console.log("Failed to post to: " + this.base + path)
                 reject("Communication error or bad request")
             })  
         })
@@ -84,7 +83,7 @@ class AuthPlzApi {
 
     PostJson(path, data) {
         return new Promise((resolve, reject) => {
-            fetch(path, {
+            fetch(this.base + path, {
                 method: 'post',
                 credentials: 'same-origin',
                 headers: {
@@ -102,17 +101,17 @@ class AuthPlzApi {
                     reject(data.message)
                 }
             }, (err) => {
-                console.log("Failed to post to: " + path)
+                console.log("Failed to post to: " + this.base + path)
                 reject("Communication error or bad request")
             }) 
         }) 
     }
 
     HandleError(resp, reject) {
-        if(resp.status == 400) {
+        if(resp.status === 400) {
             return reject("Bad request")
         }
-        if(resp.status == 401) {
+        if(resp.status === 401) {
             return reject("Unauthorized")
         }
 
@@ -122,7 +121,7 @@ class AuthPlzApi {
         return this.GetApi('/api/status')
     }
 
-    CreateUser(username, email, password) {
+    CreateUser(email, username, password) {
         return this.PostForm('/api/create', {username: username, email: email, password: password})
     }
 
@@ -135,22 +134,25 @@ class AuthPlzApi {
             // Call fetch
             fetch('/api/login', {
                 method: 'post',
-                credentials: 'same-origin',
+                //credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                },
                 body: formData
             })
             .then((resp) => {
                 // 200 is ok, 202 returns available 2fa methods
-                if((resp.status == 200) || (resp.status == 202)) {
+                if((resp.status === 200) || (resp.status === 202)) {
                     return resp.json().then((data) => {
                         resp.data = data;
                         resolve(resp)
                     })
                 }
-                if(resp == 400) {
+                if(resp === 400) {
                     return reject("Bad request")
                 }
-                if(resp == 401) {
-                    return reject("Username or password error")
+                if(resp === 401) {
+                    return reject("Email or password error")
                 }
                 
             }, (err) => {
@@ -161,7 +163,7 @@ class AuthPlzApi {
     }
 
     Account() {
-        return this.GetJson('/api/account')
+        return this.GetJson('/api/user/account')
     }
 
     PasswordReset(old_pass, new_pass) {
@@ -206,12 +208,12 @@ class AuthPlzApi {
 
     // Post a TOTP authorization
     PostTOTPTokenAuthorize(code) {
-        return this.PostJson('/api/totp/authorize', resp)
+        return this.PostJson('/api/totp/authorize', {code: code})
     }
 
     // Post a backup code authorization
     PostBackupCodeAuthorize(code) {
-        return this.PostJson('/api/backupcode/authorize', resp)
+        return this.PostJson('/api/backupcode/authorize', {code: code})
     }
 
     // OAuth things
@@ -229,5 +231,6 @@ class AuthPlzApi {
 }
 
 const AuthPlz = new AuthPlzApi()
-export {AuthPlz, AuthPlzApi}
+
+export {AuthPlz}
 

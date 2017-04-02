@@ -13,14 +13,14 @@ Early WIP. Not very useful at all.
 ## Dependencies
 
 - [Node/NPM](https://nodejs.org/en/)
-- Make (but you could just run the commands from the [makefile](makefile) yourself)
 
 ## Getting started
 
 1. Check out this repo
-2. Run `make install` to install dependencies
-3. Run `make build` to build the application
-4. [Optionally] run `make minified` to build the minified application
+2. Run `npm install` to install dependencies
+3. Run `npm build` to build the minified application
+
+For development use, run a local server with `npm start`. This will automatically reroute all requests to a local AuthPlz instance running at `https://localhost:9000`.
 
 ## Usage
 
