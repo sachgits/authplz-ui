@@ -13,12 +13,12 @@ class LoginUserView extends React.Component {
     super(props);
     // Create form state
     this.state = {
-      username: '',
+      email: '',
       password: '',
       errors: {}
     }
 
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this._handleKeyPress = this._handleKeyPress.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,10 +30,10 @@ class LoginUserView extends React.Component {
     }
   }
 
-  handleUsernameChange(e) {
+  handleEmailChange(e) {
     let state = this.state
-    state.username = e.target.value
-    this.setState({username: e.target.value, errors: this.props.validate(state)})
+    state.email = e.target.value
+    this.setState({email: e.target.value, errors: this.props.validate(state)})
   }
 
   handlePasswordChange(e) {
@@ -57,11 +57,11 @@ class LoginUserView extends React.Component {
   render() {
     return (
       <div>
-        <TextField id="username" floatingLabelText="Username" 
-          value={this.state.username}
-          onChange={this.handleUsernameChange}
+        <TextField id="email" floatingLabelText="Email" 
+          value={this.state.email}
+          onChange={this.handleEmailChange}
           fullWidth={true}
-          errorText={this.state.errors.username}
+          errorText={this.state.errors.email}
         />
 
         <TextField id="password" floatingLabelText="Password" 
@@ -76,6 +76,10 @@ class LoginUserView extends React.Component {
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
             <RaisedButton label="Create Account" style={buttonStyle} href="/#/create" />
             <RaisedButton label="Login" primary={true} style={buttonStyle} onClick={this.handleSubmit} />
+        </div>
+
+        <div hidden={this.state.errors.message === ""} style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+          {this.state.errors.message}
         </div>
       </div>
     ) 

@@ -6,13 +6,19 @@ import validator from 'validator';
 
 import { CreateUserView } from '../components/CreateUserView.js'
 
+import { AuthPlz } from '../AuthPlz.js'
+
+console.log(AuthPlz)
 
 class CreateUserPage extends React.Component {
 
   constructor(props) {
     super(props);
     // Create form state
-    this.state = {}
+    this.state = {
+      error: "",
+      result: "",
+    }
 
     this.onSubmit = this.onSubmit.bind(this);
     this.validate = this.validate.bind(this);
@@ -57,11 +63,17 @@ class CreateUserPage extends React.Component {
   }
 
   onSubmit(state) {
-    console.log("Submit: ")
-    console.log(state)
+    AuthPlz.CreateUser(state.email, state.username, state.passwordOne)
+    .then(function(res) {
+      if (res.result === "error") {
+        this.setState({error: res.message})
+      } else {
+        this.setState({result: res.message})
+      }
 
-    
-
+    }, function(err) {
+      console.log(err)
+    })
   }
 
   render() {
