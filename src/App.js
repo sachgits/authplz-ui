@@ -12,6 +12,8 @@ import './App.scss';
 import { CreateUserPage } from './pages/CreateUserPage.js'
 import { LoginUserPage } from './pages/LoginUserPage.js'
 import { SecondFactorPage } from './pages/SecondFactorPage.js'
+import { OAuthAuthorizePage } from './pages/OAuthAuthorizePage.js'
+
 
 injectTapEventPlugin();
 
@@ -27,10 +29,12 @@ class App extends React.Component {
             <li><Link to="/create">Create User</Link></li>
             <li><Link to="/login">Login</Link></li>
             <li><Link to="/2fa">Choose 2fa</Link></li>
+            <li><Link to="/oauth/authorize">Authorize OAuth</Link></li>
           </ul>
           <Route path="/create" component={CreateUserPage} />
           <Route path="/login" component={LoginUserPage} />
           <Route path="/2fa" component={SecondFactorPage}/>
+          <Route path="/oauth/authorize" component={OAuthAuthorizePage}/>
           </div>
         </HashRouter>
         </div>
