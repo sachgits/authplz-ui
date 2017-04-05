@@ -70,15 +70,20 @@ class CreateUserPage extends React.Component {
         this.setState({result: res.message})
       }
 
-    }, function(err) {
-      console.log(err)
-    })
+    }.bind(this), function(res) {
+      if (typeof res.message !== "undefined") {
+        this.setState({result: res.message})
+      } else {
+        this.setState({result: res})
+      }
+      console.log(res)
+    }.bind(this))
   }
 
   render() {
     return (
       <Centerer>
-         <CreateUserView onSubmit={this.onSubmit} validate={this.validate}/>
+         <CreateUserView onSubmit={this.onSubmit} validate={this.validate} alert={this.state.result} />
       </Centerer>
     ) 
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-class FidoView extends React.Component {
+class FidoAuthorizeView extends React.Component {
 
   constructor(props) {
     super(props);
@@ -73,4 +73,4 @@ class FidoView extends React.Component {
   }
 }
 
-export { FidoView }
+export { FidoAuthorizeView }

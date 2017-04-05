@@ -1,26 +1,15 @@
 import React from 'react';
 
-import Snackbar from 'material-ui/Snackbar';
 
-class FidoView extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      
-    }
-
-
-  }
+class AlertView extends React.Component {
 
   render() {
     return (
       <div>
-        
+        <p hidden={!!!this.props.alert}>{this.props.alert}</p>
       </div>
     );
   }
 }
 
-export { FidoView }
+export { AlertView }

@@ -15,7 +15,7 @@ class OAuthAuthorizeView extends React.Component {
     let scopes = {}
     this.props.scopes.forEach(function(scope) {
       scopes[scope] = true
-    }.bind(this))
+    })
 
     // Create form state
     this.state = {

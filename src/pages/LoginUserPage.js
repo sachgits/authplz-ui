@@ -12,7 +12,7 @@ class LoginUserPage extends React.Component {
     super(props);
     // Create form state
     this.state = {
-      message: ''
+      alert: ''
     }
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -38,30 +38,24 @@ class LoginUserPage extends React.Component {
       }
     }
 
-    if (this.state.message !== "") {
-      errors.message = this.state.message
-    } else {
-      delete errors.message
-    }
-
     return errors
   }
 
   onSubmit(state) {
     AuthPlz.Login(state.email, state.password)
     .then(function(res) {
-      console.log("Login ok")
-      this.setState({message: "Login successful"})
-    }, function(err) {
+      console.log(res)
+      this.setState({alert: "Login successful"})
+    }.bind(this), function(err) {
       console.log("Login failed")
-      this.setState({message: "Login error: invalid email address or password"})
-    })
+      this.setState({alert: "Login error: invalid email address or password"})
+    }.bind(this))
   }
 
   render() {
     return (
       <Centerer>
-          <LoginUserView onSubmit={this.onSubmit} validate={this.validate}/>
+          <LoginUserView onSubmit={this.onSubmit} validate={this.validate} alert={this.state.alert}/>
       </Centerer>
     ) 
   }

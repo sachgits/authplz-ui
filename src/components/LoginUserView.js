@@ -4,6 +4,9 @@ import React from 'react'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import { AlertView } from '../components/AlertView.js'
+
+
 const buttonStyle = {
   margin: 10,
 };
@@ -51,6 +54,8 @@ class LoginUserView extends React.Component {
 
     if ((typeof errors === "undefined") || (Object.keys(errors).length === 0)) {
       this.props.onSubmit(this.state)
+    } else {
+      console.log(errors)
     }
   }
 
@@ -71,6 +76,8 @@ class LoginUserView extends React.Component {
           fullWidth={true}
           errorText={this.state.errors.password}
         />
+
+        <AlertView alert={this.props.alert} />
         
         <br /><br />
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
@@ -78,9 +85,6 @@ class LoginUserView extends React.Component {
             <RaisedButton label="Login" primary={true} style={buttonStyle} onClick={this.handleSubmit} />
         </div>
 
-        <div hidden={this.state.errors.message === ""} style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-          {this.state.errors.message}
-        </div>
       </div>
     ) 
   }

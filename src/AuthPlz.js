@@ -9,6 +9,7 @@
 class AuthPlzApi {
     constructor(base) {
         this.base = base || ""
+        this.credentials = "include"
     }
 
     GetJson(path, params) {
@@ -20,7 +21,7 @@ class AuthPlzApi {
             // Call fetch
             fetch(this.base + path + queryData, {
                 method: 'get',
-                credentials: 'same-origin',
+                credentials: this.credentials,
             }).then((res) => { return res.json(); })
             .then((data) => {
                 resolve(data)
@@ -41,7 +42,7 @@ class AuthPlzApi {
             // Call fetch
             fetch(this.base + path + queryData, {
                 method: 'get',
-                credentials: 'same-origin',
+                credentials: this.credentials,
             }).then((res) => { return res.json(); })
             .then((data) => {
                 if(data.result === "ok") {
@@ -67,7 +68,7 @@ class AuthPlzApi {
             // Call fetch
             fetch(this.base + path, {
                 method: 'post',
-                credentials: 'same-origin',
+                credentials: this.credentials,
                 body: formData
             }).then((res) => { 
                 return res.json();
@@ -89,7 +90,7 @@ class AuthPlzApi {
         return new Promise((resolve, reject) => {
             fetch(this.base + path, {
                 method: 'post',
-                credentials: 'same-origin',
+                credentials: this.credentials,
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -138,13 +139,13 @@ class AuthPlzApi {
             // Call fetch
             fetch('/api/login', {
                 method: 'post',
-                //credentials: 'same-origin',
-                headers: {
-                    'Accept': 'application/json',
-                },
+                credentials: this.credentials,
                 body: formData
             })
             .then((resp) => {
+                console.log("Login response")
+                console.log(resp)
+
                 // 200 is ok, 202 returns available 2fa methods
                 if((resp.status === 200) || (resp.status === 202)) {
                     return resp.json().then((data) => {
@@ -152,14 +153,17 @@ class AuthPlzApi {
                         resolve(resp)
                     })
                 }
-                if(resp === 400) {
+                if(resp.status === 400) {
                     return reject("Bad request")
                 }
-                if(resp === 401) {
+                if(resp.status === 401) {
                     return reject("Email or password error")
                 }
                 
+                return reject("Unknown login error")
+                
             }, (err) => {
+                console.log("Login error")
                 console.log(err)
                 reject("Communication error or bad request")
             })  
@@ -167,7 +171,7 @@ class AuthPlzApi {
     }
 
     Account() {
-        return this.GetJson('/api/user/account')
+        return this.GetJson('/api/account')
     }
 
     PasswordReset(old_pass, new_pass) {
