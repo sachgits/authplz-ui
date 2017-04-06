@@ -27,16 +27,13 @@ class FidoRegisterView extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleNext = () => {
-    const {stepIndex} = this.state;
-    this.setState({
-      stepIndex: stepIndex + 1,
-      finished: stepIndex >= 2,
-    });
-  };
+  _handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.handleSubmit()
+    }
+  }
 
-
-  handleSubmit(event) {
+  handleSubmit() {
     this.props.onSubmit(this.state)
   }
 
@@ -46,9 +43,9 @@ class FidoRegisterView extends React.Component {
 
   render() {
     return (
-      <div onKeyPress={this._handleKeyPress}>
+      <div>
           <Stepper activeStep={this.props.stepIndex} orientation="vertical">
-          <Step>
+          <Step onKeyPress={this._handleKeyPress}>
             <StepLabel>Enter a name for the new U2F Token</StepLabel>
             <StepContent>
               <TextField id="name" floatingLabelText="Name" 

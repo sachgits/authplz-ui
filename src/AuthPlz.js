@@ -13,10 +13,14 @@ class AuthPlzApi {
     }
 
     GetJson(path, params) {
-        var queryData = "?"
-        for(let i in params) {
-            queryData += i + "=" + params[i]
+        var queryData = ""
+        if (typeof params !== "undefined") {
+            queryData += "?"
+            for(let i in params) {
+                queryData += i + "=" + params[i]
+            }
         }
+        
         return new Promise((resolve, reject) => {
             // Call fetch
             fetch(this.base + path + queryData, {
@@ -196,12 +200,12 @@ class AuthPlzApi {
 
     // Fetch a U2F token authorization challenge
     GetU2FTokenAuthorize(name) {
-        return this.GetJson('/api/u2f/authorize', {name: name})
+        return this.GetJson('/api/u2f/authenticate')
     }
 
     // Post a U2F token authorization response
     PostU2FTokenAuthorize(resp) {
-        return this.PostJson('/api/u2f/authorize', resp)
+        return this.PostJson('/api/u2f/authenticate', resp)
     }
 
     // Fetch a TOTP enrolment challenge

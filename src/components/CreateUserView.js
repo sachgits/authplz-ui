@@ -112,7 +112,6 @@ class CreateUserView extends React.Component {
           fullWidth={true}
           errorText={this.state.errors.password}
         />
-
         
         <br /><br />
 
