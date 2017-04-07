@@ -4,6 +4,8 @@ import React from 'react'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import { AlertView } from '../components/AlertView.js'
+
 const buttonStyle = {
   margin: 10,
 };
@@ -112,6 +114,9 @@ class CreateUserView extends React.Component {
         />
         
         <br /><br />
+
+        <AlertView alert={this.props.alert} />
+
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
           <RaisedButton label="Existing Account" style={buttonStyle} href="/#/login" />
           <RaisedButton label="Create" primary={true} style={buttonStyle} onClick={this.handleSubmit} />

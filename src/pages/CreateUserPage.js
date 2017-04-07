@@ -1,9 +1,9 @@
 
 import React from 'react'
-import { Grid, Row, Col } from 'react-flexbox-grid';
 
 import validator from 'validator';
 
+import { Centerer } from '../components/Centerer.js'
 import { CreateUserView } from '../components/CreateUserView.js'
 
 import { AuthPlz } from '../AuthPlz.js'
@@ -24,9 +24,8 @@ class CreateUserPage extends React.Component {
     this.validate = this.validate.bind(this);
   }
 
-
+  // Validate the child component state
   validate(state) {
-
     let errors = {}
 
     // Errors shown after submitted state is set
@@ -56,12 +55,12 @@ class CreateUserPage extends React.Component {
       } else {
         delete errors.password
       }
-
     }
 
     return errors
   }
 
+  // Called on submission of the child component (with no errors)
   onSubmit(state) {
     AuthPlz.CreateUser(state.email, state.username, state.passwordOne)
     .then(function(res) {
@@ -71,20 +70,21 @@ class CreateUserPage extends React.Component {
         this.setState({result: res.message})
       }
 
-    }, function(err) {
-      console.log(err)
-    })
+    }.bind(this), function(res) {
+      if (typeof res.message !== "undefined") {
+        this.setState({result: res.message})
+      } else {
+        this.setState({result: res})
+      }
+      console.log(res)
+    }.bind(this))
   }
 
   render() {
     return (
-      <Grid fluid>
-        <Row>
-          <Col xsOffset={1} xs={10} smOffset={3} sm={6} mdOffset={4} md={4}>
-            <CreateUserView onSubmit={this.onSubmit} validate={this.validate}/>
-          </Col>
-        </Row>
-      </Grid>
+      <Centerer>
+         <CreateUserView onSubmit={this.onSubmit} validate={this.validate} alert={this.state.result} />
+      </Centerer>
     ) 
   }
 }

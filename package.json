@@ -5,12 +5,16 @@
   "dependencies": {
     "flexbox": "0.0.3",
     "material-ui": "^0.17.1",
+    "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
+    "momentjs": "^2.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-flexbox": "^3.1.1",
     "react-flexbox-grid": "^1.0.2",
     "react-history": "^0.18.2",
     "react-material-ui": "0.0.1",
+    "react-moment": "^0.2.2",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
     "react-router-redux": "^4.0.8",
@@ -21,7 +25,7 @@
     "react-scripts": "0.9.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

@@ -1,7 +1,7 @@
 
 import React from 'react'
-import { Grid, Row, Col } from 'react-flexbox-grid';
 
+import { Centerer } from '../components/Centerer.js'
 import { LoginUserView } from '../components/LoginUserView.js'
 
 import { AuthPlz } from '../AuthPlz.js'
@@ -12,7 +12,7 @@ class LoginUserPage extends React.Component {
     super(props);
     // Create form state
     this.state = {
-      message: ''
+      alert: ''
     }
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -38,35 +38,25 @@ class LoginUserPage extends React.Component {
       }
     }
 
-    if (this.state.message !== "") {
-      errors.message = this.state.message
-    } else {
-      delete errors.message
-    }
-
     return errors
   }
 
   onSubmit(state) {
     AuthPlz.Login(state.email, state.password)
     .then(function(res) {
-      console.log("Login ok")
-      this.setState({message: "Login successful"})
-    }, function(err) {
+      console.log(res)
+      this.setState({alert: "Login successful"})
+    }.bind(this), function(err) {
       console.log("Login failed")
-      this.setState({message: "Login error: invalid email address or password"})
-    })
+      this.setState({alert: "Login error: invalid email address or password"})
+    }.bind(this))
   }
 
   render() {
     return (
-      <Grid fluid>
-        <Row>
-          <Col xsOffset={1} xs={10} smOffset={3} sm={6} mdOffset={4} md={4}>
-            <LoginUserView onSubmit={this.onSubmit} validate={this.validate}/>
-          </Col>
-        </Row>
-      </Grid>
+      <Centerer>
+          <LoginUserView onSubmit={this.onSubmit} validate={this.validate} alert={this.state.alert}/>
+      </Centerer>
     ) 
   }
 }

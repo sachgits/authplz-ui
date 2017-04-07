@@ -1,46 +1,17 @@
 
 import React from 'react'
-import { Grid, Row, Col } from 'react-flexbox-grid';
 
-import { SecondFactorView } from '../components/SecondFactorView.js'
+import { Centerer } from '../components/Centerer.js'
+import { SecondFactorPicker } from '../components/SecondFactorPicker.js'
 
-import AuthPlz from '../AuthPlz.js'
+//import AuthPlz from '../AuthPlz.js'
 
 class SecondFactorPage extends React.Component {
-   constructor(props) {
-    super(props);
-    // Create form state
-    this.state = {}
-
-    
-  }
-
-  loadFactors() {
-
-  }
-
-
-  validate(state) {
-    let errors = {}
-
-
-    return errors
-  }
-
-  onSubmit(state) {
-    
-
-  }
-
   render() {
     return (
-      <Grid fluid>
-        <Row>
-          <Col xsOffset={1} xs={10} smOffset={3} sm={6} mdOffset={4} md={4}>
-            <SecondFactorView />
-          </Col>
-        </Row>
-      </Grid>
+      <Centerer>
+        <SecondFactorPicker u2f={true} totp={true} backup={true}/>
+      </Centerer>
     ) 
   }
 }
