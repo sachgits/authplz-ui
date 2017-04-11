@@ -28,6 +28,7 @@ class OAuthAuthorizeView extends React.Component {
 
     this.handleScopesChange = this.handleScopesChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleScopesChange(scopes) {
@@ -50,7 +51,7 @@ class OAuthAuthorizeView extends React.Component {
         <p><a href={this.props.url}>{this.props.url}</a></p>
 
         <h3>Scopes</h3>
-        <ScopeSelector scopes={this.props.scopes} onChange={this.handleScopesChange} />
+        <ScopeSelector scopes={this.props.scopes} default={false} onChange={this.handleScopesChange} />
 
         <br /><br />
          <AlertView alert={this.props.alert} />
