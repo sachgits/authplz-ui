@@ -9,6 +9,14 @@ import { AlertView } from '../components/AlertView.js'
 class AccountView extends React.Component {
 
   render() {
+    if ((typeof this.props.user === "undefined") || (this.props.user === null)) {
+      return (
+        <div>
+        <p> No user property loaded</p>
+        </div>
+      )
+    }
+
     return (
       <div>
         <h3>User: {this.props.user.Username}</h3>
@@ -29,10 +37,11 @@ class AccountView extends React.Component {
         </TableBody>
       </Table>
 
-      <AlertView alert={this.props.alert} />
+        <AlertView alert={this.props.alert} />
 
-      </div>
-    );
+        </div>
+      );
+
   }
 
 }

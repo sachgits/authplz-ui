@@ -61,7 +61,7 @@ class LoginUserView extends React.Component {
 
   render() {
     return (
-      <div>
+      <div onKeyPress={this._handleKeyPress}>
         <TextField id="email" floatingLabelText="Email" 
           value={this.state.email}
           onChange={this.handleEmailChange}

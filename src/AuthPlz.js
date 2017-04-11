@@ -28,6 +28,8 @@ class AuthPlzApi {
                 credentials: this.credentials,
             }).then((res) => { return res.json(); })
             .then((data) => {
+                console.log("Got: ")
+                console.log(data)
                 resolve(data)
             }, (err) => {
                 console.log("Failed to get from: " + this.base + path + " error: " + err)
@@ -104,10 +106,14 @@ class AuthPlzApi {
                 return res.json();
             })
             .then((data) => {
-                if(data.result === "ok") {
-                    resolve(data.message)
+                if(typeof data.result !== "undefined") {
+                    if (data.result=== "ok") {
+                        resolve(data.message)
+                    } else {
+                        reject(data.message)
+                    }
                 } else {
-                    reject(data.message)
+                    resolve(data)
                 }
             }, (err) => {
                 console.log("Failed to post to: " + this.base + path)
@@ -230,9 +236,20 @@ class AuthPlzApi {
 
     // OAuth things
 
+    // Fetch OAuth client options
+    GetOAuthOptions() {
+        return this.GetJson('/api/oauth/options')
+    }
+
+    // Post a response to an authorization request
+     CreateOauthClient(name, url, scopes, grants, responses) {
+        return this.PostJson('/api/oauth/clients', {name: name, redirects: [url], 
+                scopes: scopes, grants: grants, responses: responses})
+    }
+
     // Fetch a pending OAuth authorization
     GetPendingAuthorization() {
-        return this.GetJson('/api/oauth/pending', {})
+        return this.GetJson('/api/oauth/pending')
     }
 
     // Post a response to an authorization request

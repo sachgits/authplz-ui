@@ -13,9 +13,12 @@ import { CreateUserPage } from './pages/CreateUserPage.js'
 import { LoginUserPage } from './pages/LoginUserPage.js'
 import { AccountPage } from './pages/AccountPage.js'
 import { SecondFactorPage } from './pages/SecondFactorPage.js'
-import { OAuthAuthorizePage } from './pages/OAuthAuthorizePage.js'
+
 import { FidoRegisterPage } from './pages/FidoRegisterPage.js'
 import { FidoAuthorizePage } from './pages/FidoAuthorizePage.js'
+
+import { OAuthCreatePage } from './pages/OAuthCreatePage.js'
+import { OAuthAuthorizePage } from './pages/OAuthAuthorizePage.js'
 
 injectTapEventPlugin();
 
@@ -34,7 +37,8 @@ class App extends React.Component {
             <li><Link to="/2fa">Choose 2fa</Link></li>
             <li><Link to="/2fa-u2f-register">Register U2F token</Link></li>
             <li><Link to="/2fa-u2f-authorize">U2F Authorize</Link></li>
-            <li><Link to="/oauth/authorize">Authorize OAuth</Link></li>
+            <li><Link to="/oauth-create">Create OAuth Client</Link></li>
+            <li><Link to="/oauth-authorize">Authorize OAuth</Link></li>
           </ul>
           <Route path="/create" component={CreateUserPage} />
           <Route path="/login" component={LoginUserPage} />
@@ -42,7 +46,8 @@ class App extends React.Component {
           <Route path="/2fa" component={SecondFactorPage}/>
           <Route path="/2fa-u2f-register" component={FidoRegisterPage}/>
           <Route path="/2fa-u2f-authorize" component={FidoAuthorizePage}/>
-          <Route path="/oauth/authorize" component={OAuthAuthorizePage}/>
+          <Route path="/oauth-create" component={OAuthCreatePage}/>
+          <Route path="/oauth-authorize" component={OAuthAuthorizePage}/>
           </div>
         </HashRouter>
         </div>

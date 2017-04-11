@@ -4,7 +4,7 @@ import React from 'react'
 import { Centerer } from '../components/Centerer.js'
 import { OAuthAuthorizeView } from '../components/OAuthAuthorizeView.js'
 
-//import AuthPlz from '../AuthPlz.js'
+import { AuthPlz } from '../AuthPlz.js'
 
 class OAuthAuthorizePage extends React.Component {
 
@@ -13,24 +13,34 @@ class OAuthAuthorizePage extends React.Component {
     // Create form state
     this.state = {
         pending: false,
-        url: "",
-        requestedScopes: [],
+        url: "fakeURL",
+        name: "fakeName",
+        requestedScopes: ["abc", "123"],
         grantedScopes: [],
+        error: "",
     }
 
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount = () => {
+    //this.getPending()
+  }
+
   // Fetch pending authorizations
   getPending() {
-/*
-    this.setScope({
-        url: pending.redirect_uri,
-        state: pending.state,
-        id: pending.id,
-        scopes: pending.scopes,
-    })
-*/
+    AuthPlz.GetPendingAuthorization().then((resp) => {
+       this.setState({
+          url: resp.redirect_uri,
+          state: resp.state,
+          name: resp.name,
+          id: resp.id,
+          requestedScopes: resp.scopes,
+      })
+
+    }, (err) => {
+      this.setState({error: "Error fetching pending authorization"})
+    }) 
   }
 
   onSubmit(scope) {
@@ -45,7 +55,14 @@ class OAuthAuthorizePage extends React.Component {
   render() {
     return (
       <Centerer>
-        <OAuthAuthorizeView onSubmit={this.onSubmit} onCancel={this.onCancel} url="testurl" scopes={["a", "b", "c"]}/>
+        <OAuthAuthorizeView 
+          onSubmit={this.onSubmit} 
+          onCancel={this.onCancel} 
+          name={this.state.name} 
+          url={this.state.url} 
+          scopes={this.state.requestedScopes}
+          alert={this.state.error}
+        />
       </Centerer>
     ) 
   }
