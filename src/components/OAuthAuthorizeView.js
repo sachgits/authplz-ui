@@ -47,7 +47,7 @@ class OAuthAuthorizeView extends React.Component {
     return (
       <div>
         <h1>OAuth Application Authorization</h1>
-        <h3>{this.props.name}</h3>
+        <h2>{this.props.name}</h2>
         <p><a href={this.props.url}>{this.props.url}</a></p>
 
         <h3>Scopes</h3>

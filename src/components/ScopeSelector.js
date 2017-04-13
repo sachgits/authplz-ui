@@ -11,7 +11,7 @@ class ScopeSelector extends React.Component {
     let scopes = {}
     this.props.scopes.forEach(function(scope) {
       scopes[scope] = this.props.default
-    })
+    }.bind(this))
 
     // Create form state
     this.state = {

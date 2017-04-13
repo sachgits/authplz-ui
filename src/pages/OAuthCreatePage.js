@@ -19,8 +19,11 @@ class OAuthCreatePage extends React.Component {
     this.state = {
         name: "",
         url: "",
-        grants: [],
-        scopes: [],
+       
+        allowed_scopes: [],
+         grant_types: [],
+         response_types: [],
+         
         error: "",
         result: "",
         client: {
@@ -77,8 +80,9 @@ class OAuthCreatePage extends React.Component {
       console.log("Get oauth options")
       console.log(res)
       this.setState({
-        scopes: res.scopes,
-        grants: res.grants
+        allowed_scopes: res.scopes,
+        grant_types: res.grant_types,
+        response_types: res.response_types,
       })
     }.bind(this), function(err){
       console.log("Get oauth options error")
@@ -121,8 +125,8 @@ class OAuthCreatePage extends React.Component {
       <Centerer>
         <div hidden={this.state.clientLoaded}>
          <OAuthCreateView 
-          scopes={this.state.scopes}
-          grants={this.state.grants} 
+          scopes={this.state.allowed_scopes}
+          grants={this.state.grant_types} 
           alert={this.state.error}
           errors={this.state.errors}
           validate={this.validate}

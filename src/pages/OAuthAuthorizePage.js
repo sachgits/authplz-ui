@@ -18,19 +18,21 @@ class OAuthAuthorizePage extends React.Component {
         requestedScopes: ["abc", "123"],
         grantedScopes: [],
         error: "",
+        done: false,
     }
 
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount = () => {
-    //this.getPending()
+    this.getPending()
   }
 
   // Fetch pending authorizations
   getPending() {
     AuthPlz.GetPendingAuthorization().then((resp) => {
        this.setState({
+          pending: true,
           url: resp.redirect_uri,
           state: resp.state,
           name: resp.name,
@@ -43,9 +45,16 @@ class OAuthAuthorizePage extends React.Component {
     }) 
   }
 
-  onSubmit(scope) {
+  onSubmit(childState) {
     console.log("Submitting authorization")
-    console.log(scope)
+    console.log(childState)
+    
+    AuthPlz.PostAuthorizationAccept(true, this.state.state, childState.scopes).then((resp) => {
+       this.setState({done: true})
+       this.setState({error: "Authorization post successful"})
+    }, (err) => {
+        this.setState({error: "Error posting authorization"})
+    }) 
   }
     
   onCancel() {
@@ -55,14 +64,22 @@ class OAuthAuthorizePage extends React.Component {
   render() {
     return (
       <Centerer>
-        <OAuthAuthorizeView 
-          onSubmit={this.onSubmit} 
-          onCancel={this.onCancel} 
-          name={this.state.name} 
-          url={this.state.url} 
-          scopes={this.state.requestedScopes}
-          alert={this.state.error}
-        />
+        <div hidden={this.state.pending}>
+          <p>No pending authorizations found</p>
+        </div>
+        <div hidden={!this.state.pending || this.state.done}>
+          <OAuthAuthorizeView 
+            onSubmit={this.onSubmit} 
+            onCancel={this.onCancel} 
+            name={this.state.name} 
+            url={this.state.url} 
+            scopes={this.state.requestedScopes}
+            alert={this.state.error}
+          />
+        </div>
+        <div hidden={!this.state.done}>
+          <p>Client authorization complete</p>
+        </div>
       </Centerer>
     ) 
   }

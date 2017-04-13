@@ -244,7 +244,7 @@ class AuthPlzApi {
     // Post a response to an authorization request
      CreateOauthClient(name, url, scopes, grants, responses) {
         return this.PostJson('/api/oauth/clients', {name: name, redirects: [url], 
-                scopes: scopes, grants: grants, responses: responses})
+                scopes: scopes, grant_types: grants, response_types: responses})
     }
 
     // Fetch a pending OAuth authorization
@@ -254,7 +254,7 @@ class AuthPlzApi {
 
     // Post a response to an authorization request
      PostAuthorizationAccept(accept, state, scopes) {
-        return this.PostJson('/api/oauth/auth', {accept: accept, state: state, scopes: scopes})
+        return this.PostJson('/api/oauth/auth', {accept: accept, state: state, granted_scopes : scopes})
     }
 
 }
