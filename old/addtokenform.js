@@ -8,7 +8,7 @@ import { BrowserHistory } from 'react-history'
 import { Col, Form, FormGroup, ControlLabel, FormControl, Checkbox, Button, Alert } from 'react-bootstrap';
 import { AuthPlz } from '../js/authplz';
 
-import { u2f } from '../js/u2f-api.js';
+import { u2f } from '../js/u2f-api';
 
 // Login form component
 class AddTokenForm extends React.Component {
