@@ -4,7 +4,7 @@ import { Centerer } from '../components/Centerer';
 import { FidoAuthorizeView } from '../components/FidoAuthorizeView';
 
 import { AuthPlz } from '../AuthPlz';
-import { u2f } from '../../lib/u2f-api';
+import { u2f } from '../lib/u2f-api';
 
 class FidoAuthorizePage extends React.Component {
 
