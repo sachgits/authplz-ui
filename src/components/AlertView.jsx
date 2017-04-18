@@ -7,7 +7,7 @@ const AlertView = props =>
     </div>;
 
 AlertView.propTypes = {
-    alert: React.propTypes.object,
+    alert: React.PropTypes.object,
 };
 
 AlertView.defaultProps = {
