@@ -19,16 +19,23 @@
     "react-router-dom": "^4.0.0",
     "react-router-redux": "^4.0.8",
     "react-tap-event-plugin": "^2.0.1",
-    "validator": "^7.0.0"
+    "validator": "^7.0.0",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
     "react-scripts": "0.9.5"
   },
   "scripts": {
     "start": "HTTPS=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src/**/*"
   },
-  "proxy": "https://localhost:9000"
+  "proxy": "https://192.168.1.100:9000"
 }
