@@ -9,7 +9,7 @@ import fetch, { FormData } from 'whatwg-fetch';
 // AuthPlz API interface class
 class AuthPlzApi {
     constructor(base) {
-        this.base = base || '';
+        this.base = base || process.env.PUBLIC_URL || '';
         this.credentials = 'include';
     }
 
