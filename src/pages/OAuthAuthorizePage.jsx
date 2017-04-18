@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Centerer } from '../components/Centerer';
-import { OAuthAuthorizeView } from '../components/OAuthAuthorizeView';
+import Centerer from '../components/Centerer';
+import OAuthAuthorizeView from '../components/OAuthAuthorizeView';
 
 import { AuthPlz } from '../AuthPlz';
 

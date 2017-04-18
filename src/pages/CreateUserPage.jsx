@@ -3,8 +3,8 @@ import React from 'react';
 
 import validator from 'validator';
 
-import { Centerer } from '../components/Centerer';
-import { CreateUserView } from '../components/CreateUserView';
+import Centerer from '../components/Centerer';
+import CreateUserView from '../components/CreateUserView';
 
 import { AuthPlz } from '../AuthPlz';
 

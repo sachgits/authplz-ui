@@ -4,7 +4,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { AlertView } from '../components/AlertView';
+import AlertView from '../components/AlertView';
 
 const buttonStyle = {
     margin: 10,

@@ -9,16 +9,16 @@ import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './App.scss';
 
-import { CreateUserPage } from './pages/CreateUserPage';
-import { LoginUserPage } from './pages/LoginUserPage';
-import { AccountPage } from './pages/AccountPage';
-import { SecondFactorPage } from './pages/SecondFactorPage';
+import CreateUserPage from './pages/CreateUserPage';
+import LoginUserPage from './pages/LoginUserPage';
+import AccountPage from './pages/AccountPage';
+import SecondFactorPage from './pages/SecondFactorPage';
 
-import { FidoRegisterPage } from './pages/FidoRegisterPage';
-import { FidoAuthorizePage } from './pages/FidoAuthorizePage';
+import FidoRegisterPage from './pages/FidoRegisterPage';
+import FidoAuthorizePage from './pages/FidoAuthorizePage';
 
-import { OAuthCreatePage } from './pages/OAuthCreatePage';
-import { OAuthAuthorizePage } from './pages/OAuthAuthorizePage';
+import OAuthCreatePage from './pages/OAuthCreatePage';
+import OAuthAuthorizePage from './pages/OAuthAuthorizePage';
 
 injectTapEventPlugin();
 

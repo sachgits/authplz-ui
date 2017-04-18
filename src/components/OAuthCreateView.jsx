@@ -3,8 +3,8 @@ import React, { PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { AlertView } from '../components/AlertView';
-import { ScopeSelector } from '../components/ScopeSelector';
+import AlertView from '../components/AlertView';
+import ScopeSelector from '../components/ScopeSelector';
 
 const buttonStyle = {
     margin: 10,

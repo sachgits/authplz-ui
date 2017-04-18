@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Centerer } from '../components/Centerer';
-import { FidoRegisterView } from '../components/FidoRegisterView';
+import Centerer from '../components/Centerer';
+import FidoRegisterView from '../components/FidoRegisterView';
 
 import { AuthPlz } from '../AuthPlz';
 import { u2f } from '../lib/u2f-api';
