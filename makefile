@@ -15,10 +15,12 @@ VERSION=$(shell git describe --dirty)
 MESSAGE="Publishing $(VERSION) to gh-pages"
 
 build:
+	@echo "************ Build ***********"
 	@rm -rf $(BUILD_DIR)/*
 	npm run-script build
 
 publish: setup build
+	@echo "************ Publish ***********"
 ifneq (,$(findstring dirty,$(VERSION)))
 	@echo "Working tree is dirty, please commit before publishing"
 else
@@ -31,6 +33,7 @@ else
 endif
 
 setup:
+	@echo "*********** Setup ************"
 	@echo "Cleaning $(BUILD_DIR)"
 	@rm -rf $(BUILD_DIR)
 	@mkdir $(BUILD_DIR)
