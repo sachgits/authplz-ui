@@ -16,7 +16,6 @@ MESSAGE="Publishing $(VERSION) to gh-pages"
 
 build:
 	@echo "------- Build -------"
-	@rm -rf $(BUILD_DIR)/*
 	npm run-script build
 	@cp CNAME $(BUILD_DIR)/
 	@echo "------- /Build -------"
@@ -27,7 +26,7 @@ ifneq (,$(findstring dirty,$(VERSION)))
 	@echo "Working tree is dirty, please commit before publishing"
 else
 	@echo "Adding files"
-	git -C $(BUILD_DIR) add -f --all
+	git -C $(BUILD_DIR) add -f ./*
 	@echo "Creating commit"
 	git -C $(BUILD_DIR) commit -m $(MESSAGE)
 	@echo "Pushing new commit"
@@ -37,14 +36,7 @@ endif
 
 setup:
 	@echo "------- Setup -------"
-	@echo "Cleaning $(BUILD_DIR)"
-	@rm -rf $(BUILD_DIR)
-	@mkdir $(BUILD_DIR)
-	@git worktree prune -v
-	@rm -rf .git/worktrees/$(BUILD_DIR)
-	@echo "Adding worktree"
-	@git worktree add -B $(BRANCH) $(BUILD_DIR) origin/$(BRANCH)
-	@git worktree list
+	@git clone git@github.com:ryankurte/authplz-ui.git -b gh-pages --depth 1 build/
 	@echo "------- /Setup -------"
 
 clean:
