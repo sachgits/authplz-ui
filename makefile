@@ -9,7 +9,7 @@
 # prior to using this makefile
 
 BRANCH=gh-pages
-BUILD_DIR=public
+BUILD_DIR=build
 
 VERSION=$(shell git describe --dirty)
 MESSAGE="Publishing $(VERSION) to gh-pages"
