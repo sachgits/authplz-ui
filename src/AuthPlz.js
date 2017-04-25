@@ -9,7 +9,7 @@
 // AuthPlz API interface class
 class AuthPlzApi {
     constructor(base) {
-        this.base = base || process.env.PUBLIC_URL || '';
+        this.base = base || process.env.REACT_APP_API_SERVER || '';
         this.credentials = 'include';
     }
 

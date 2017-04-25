@@ -32,3 +32,4 @@ static/
 *.tgz
 *.log
 build/
+deploy/

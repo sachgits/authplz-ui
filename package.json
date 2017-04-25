@@ -36,5 +36,6 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src/**/*"
   },
-  "proxy": "https://192.168.1.100:9001"
+  "proxy": "https://authplz.herokuapp.com",
+  "homepage": "https://ryan.kurte.nz/authplz-ui"
 }
