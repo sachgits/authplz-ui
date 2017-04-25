@@ -21,7 +21,7 @@ build:
 	@cp CNAME $(BUILD_DIR)/
 	@echo "------- /Build -------"
 
-publish: build
+publish: clean setup build
 	@echo "------- Publish -------"
 ifneq (,$(findstring dirty,$(VERSION)))
 	@echo "Working tree is dirty, please commit before publishing"
@@ -49,3 +49,5 @@ setup:
 
 clean:
 	@rm -rf $(BUILD_DIR)
+
+.PHONY: build clean setup publish
