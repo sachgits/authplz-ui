@@ -6,7 +6,7 @@ import validator from 'validator';
 import Centerer from '../components/Centerer';
 import CreateUserView from '../components/CreateUserView';
 
-import { AuthPlz } from '../AuthPlz';
+import AuthPlz from '../AuthPlz';
 
 console.log(AuthPlz);
 

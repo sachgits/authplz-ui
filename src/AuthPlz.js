@@ -4,7 +4,7 @@
  */
 
 // import u2f from './u2f-api';
-import fetch, { FormData } from 'whatwg-fetch';
+// import { fetch } from 'whatwg-fetch';
 
 // AuthPlz API interface class
 class AuthPlzApi {
