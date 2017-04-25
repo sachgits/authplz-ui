@@ -14,12 +14,12 @@ BUILD_DIR=build
 VERSION=$(shell git describe --dirty)
 MESSAGE="Publishing $(VERSION) to gh-pages"
 
-build:
+build: setup
 	@echo "************ Build ***********"
 	@rm -rf $(BUILD_DIR)/*
 	npm run-script build
 
-publish: setup build
+publish: build
 	@echo "************ Publish ***********"
 ifneq (,$(findstring dirty,$(VERSION)))
 	@echo "Working tree is dirty, please commit before publishing"
