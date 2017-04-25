@@ -17,7 +17,7 @@ MESSAGE="Publishing $(VERSION) to gh-pages"
 build: setup
 	@echo "------- Build -------"
 	@rm -rf $(BUILD_DIR)/*
-	hugo
+	npm run-script build
 	@cp CNAME $(BUILD_DIR)/
 	@echo "------- /Build -------"
 
