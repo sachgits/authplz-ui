@@ -15,12 +15,14 @@ VERSION=$(shell git describe --dirty)
 MESSAGE="Publishing $(VERSION) to gh-pages"
 
 build: setup
-	@echo "************ Build ***********"
+	@echo "------- Build -------"
 	@rm -rf $(BUILD_DIR)/*
-	npm run-script build
+	hugo
+	@cp CNAME $(BUILD_DIR)/
+	@echo "------- /Build -------"
 
-publish: build
-	@echo "************ Publish ***********"
+publish: setup
+	@echo "------- Publish -------"
 ifneq (,$(findstring dirty,$(VERSION)))
 	@echo "Working tree is dirty, please commit before publishing"
 else
@@ -30,10 +32,11 @@ else
 	git -C $(BUILD_DIR) commit -m $(MESSAGE)
 	@echo "Pushing new commit"
 	git -C $(BUILD_DIR) push origin $(BRANCH)
+	@echo "------- /Publish -------"
 endif
 
 setup:
-	@echo "*********** Setup ************"
+	@echo "------- Setup -------"
 	@echo "Cleaning $(BUILD_DIR)"
 	@rm -rf $(BUILD_DIR)
 	@mkdir $(BUILD_DIR)
@@ -42,6 +45,8 @@ setup:
 	@echo "Adding worktree"
 	@git worktree add -B $(BRANCH) $(BUILD_DIR) origin/$(BRANCH)
 	@git worktree list
+	@echo "------- /Setup -------"
 
 clean:
 	@rm -rf $(BUILD_DIR)
+	
