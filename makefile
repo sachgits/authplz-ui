@@ -14,7 +14,7 @@ BUILD_DIR=build
 VERSION=$(shell git describe --dirty)
 MESSAGE="Publishing $(VERSION) to gh-pages"
 
-build: setup
+build:
 	@echo "------- Build -------"
 	@rm -rf $(BUILD_DIR)/*
 	npm run-script build
