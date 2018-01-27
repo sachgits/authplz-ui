@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Centerer from '../components/Centerer';
-import SecondFactorPicker from '../components/SecondFactorPicker';
+import Centerer from '../../components/Centerer';
+import { SecondFactorPicker } from './SecondFactorPicker';
 
 // import AuthPlz from '../AuthPlz'
 

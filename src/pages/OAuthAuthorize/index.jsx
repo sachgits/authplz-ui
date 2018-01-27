@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-import Centerer from '../components/Centerer';
-import OAuthAuthorizeView from '../components/OAuthAuthorizeView';
+import RaisedButton from 'material-ui/RaisedButton';
 
-import AuthPlz from '../AuthPlz';
+import Centerer from '../../components/Centerer';
+import OAuthAuthorizeView from './OAuthAuthorizeView';
+
+import ScopeSelector from '../../components/ScopeSelector';
+import AlertView from '../../components/AlertView';
+
+import AuthPlz from '../../AuthPlz';
 
 const onCancel = () => {
     console.log('Cancelled authorization');
 };
 
-class OAuthAuthorizePage extends React.Component {
-
+class OAuthAuthorizePage extends PureComponent {
     constructor(props) {
         super(props);
-    // Create form state
-        this.state = {
+
+        this.state = { 
             pending: false,
             url: 'fakeURL',
             name: 'fakeName',

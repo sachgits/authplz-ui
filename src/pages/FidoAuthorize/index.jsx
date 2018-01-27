@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Centerer from '../components/Centerer';
-import FidoAuthorizeView from '../components/FidoAuthorizeView';
+import CircularProgress from 'material-ui/CircularProgress';
+import RaisedButton from 'material-ui/RaisedButton';
 
-import AuthPlz from '../AuthPlz';
-import { u2f } from '../lib/u2f-api';
+import AuthPlz from '../../AuthPlz';
+import { u2f } from '../../lib/u2f-api';
 
 class FidoAuthorizePage extends React.Component {
 
@@ -82,15 +82,19 @@ class FidoAuthorizePage extends React.Component {
 
     render() {
         return (
-            <Centerer>
-                <FidoAuthorizeView
-                  pending={this.state.pending}
-                  done={this.state.done}
-                  retry={this.state.retry}
-                  onRetry={this.onRetry}
-                  error={this.state.error}
-                />
-            </Centerer>
+            <div>
+                <p>Please insert your U2F / Fido token and press the button if available</p>
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <div hidden={!this.state.pending}> <CircularProgress /> </div>
+                </div>
+                <p hidden={!this.state.error}>{this.state.error}</p>
+
+                <div hidden={!this.state.retry}>
+                    <RaisedButton label="Retry" primary onClick={this.onRetry} />
+                </div>
+
+                <p hidden={!this.state.done}>U2F Authorization Complete</p>
+            </div>
         );
     }
 }

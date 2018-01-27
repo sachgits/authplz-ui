@@ -3,7 +3,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import AlertView from '../components/AlertView';
+import AlertView from '../../components/AlertView';
 
 
 const buttonStyle = {
@@ -61,41 +61,6 @@ class LoginUserView extends React.Component {
     render() {
         return (
             <div>
-                <TextField
-                  id="email" floatingLabelText="Email"
-                  value={this.state.email}
-                  onChange={this.handleEmailChange}
-                  fullWidth
-                  errorText={this.state.errors.email}
-                  onKeyPress={this.handleKeyPress}
-                />
-
-                <TextField
-                  id="password" floatingLabelText="Password"
-                  value={this.state.password}
-                  type="password"
-                  onChange={this.handlePasswordChange}
-                  fullWidth
-                  errorText={this.state.errors.password}
-                  onKeyPress={this.handleKeyPress}
-                />
-
-                <AlertView alert={this.props.alert} />
-
-                <br /><br />
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <RaisedButton
-                      label="Create Account"
-                      style={buttonStyle}
-                      href="/#/create"
-                    />
-                    <RaisedButton
-                      label="Login"
-                      primary
-                      style={buttonStyle}
-                      onClick={this.handleSubmit}
-                    />
-                </div>
 
             </div>
         );
