@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 
 const AlertView = props =>
     <div>
@@ -7,7 +7,7 @@ const AlertView = props =>
     </div>;
 
 AlertView.propTypes = {
-    alert: React.PropTypes.object,
+    alert: PropTypes.string,
 };
 
 AlertView.defaultProps = {

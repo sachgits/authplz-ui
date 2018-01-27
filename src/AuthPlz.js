@@ -4,12 +4,13 @@
  */
 
 // import u2f from './u2f-api';
-// import { fetch } from 'whatwg-fetch';
+import 'whatwg-fetch';
+import { REACT_APP_API_SERVER } from './const';
 
 // AuthPlz API interface class
 class AuthPlzApi {
     constructor(base) {
-        this.base = base || process.env.REACT_APP_API_SERVER || '';
+        this.base = base || REACT_APP_API_SERVER || '';
         this.credentials = 'include';
     }
 

@@ -2,14 +2,11 @@ import React from 'react';
 
 import validator from 'validator';
 
-import Centerer from '../components/Centerer';
-import OAuthCreateView from '../components/OAuthCreateView';
-import OAuthClientView from '../components/OAuthClientView';
+import Centerer from '../../components/Centerer';
+import OAuthCreateView from './OAuthCreateView';
+import OAuthClientView from './OAuthClientView';
 
-import AuthPlz from '../AuthPlz';
-
-console.log(AuthPlz);
-
+import AuthPlz from '../../AuthPlz';
 
 // Validate the child component state
 const validateFields = (state) => {

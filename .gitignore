@@ -33,3 +33,4 @@ static/
 *.log
 build/
 deploy/
+.DS_Store

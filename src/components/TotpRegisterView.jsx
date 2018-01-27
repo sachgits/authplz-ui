@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import CircularProgress from 'material-ui/CircularProgress';
 
-import AlertView from '../components/AlertView';
+import AlertView from '../../components/AlertView';
 
 const buttonStyle = {
     margin: 10,

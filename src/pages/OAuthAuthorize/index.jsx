@@ -1,20 +1,19 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-import Centerer from '../components/Centerer';
-import OAuthAuthorizeView from '../components/OAuthAuthorizeView';
+import Centerer from '../../components/Centerer';
+import OAuthAuthorizeView from './OAuthAuthorizeView';
 
-import AuthPlz from '../AuthPlz';
+import AuthPlz from '../../AuthPlz';
 
 const onCancel = () => {
     console.log('Cancelled authorization');
 };
 
-class OAuthAuthorizePage extends React.Component {
-
+class OAuthAuthorizePage extends PureComponent {
     constructor(props) {
         super(props);
-    // Create form state
-        this.state = {
+
+        this.state = { 
             pending: false,
             url: 'fakeURL',
             name: 'fakeName',
