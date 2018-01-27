@@ -1,5 +1,10 @@
 import React, { PropTypes } from 'react';
 
+import RaisedButton from 'material-ui/RaisedButton';
+
+import ScopeSelector from '../../components/ScopeSelector';
+import AlertView from '../../components/AlertView';
+
 const buttonStyle = {
     margin: 10,
 };

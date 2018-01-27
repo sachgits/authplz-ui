@@ -1,12 +1,7 @@
 import React, { PureComponent } from 'react';
 
-import RaisedButton from 'material-ui/RaisedButton';
-
 import Centerer from '../../components/Centerer';
 import OAuthAuthorizeView from './OAuthAuthorizeView';
-
-import ScopeSelector from '../../components/ScopeSelector';
-import AlertView from '../../components/AlertView';
 
 import AuthPlz from '../../AuthPlz';
 
