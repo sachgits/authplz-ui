@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const SecondFactorLink = props =>
     <div>
@@ -7,5 +8,5 @@ const SecondFactorLink = props =>
     </div>;
 
 SecondFactorLink.propTypes = {
-    info: React.PropTypes.object.isRequired,
+    info: PropTypes.object.isRequired,
 };

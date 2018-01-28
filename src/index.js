@@ -1,10 +1,24 @@
-/* eslint react/jsx-filename-extension: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+
+import { IntlProvider } from 'react-intl';
+
 import './index.css';
+import App from './App';
+import registerServiceWorker from './registerServiceWorker';
+
+import { Router } from 'react-router';
+
+import createBrowserHistory from 'history/createBrowserHistory';
+
+const history = createBrowserHistory();
 
 ReactDOM.render(
-    <App />,
-    document.getElementById('root'),
+    <IntlProvider locale="en">
+        <Router history={history}>
+            <App />
+        </Router>
+    </IntlProvider>
+    , document.getElementById('root'),
 );
+registerServiceWorker();

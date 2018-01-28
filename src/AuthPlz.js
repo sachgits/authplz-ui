@@ -28,14 +28,14 @@ class AuthPlzApi {
                 method: 'get',
                 credentials: this.credentials,
             }).then(res => res.json())
-            .then((data) => {
-                console.log('Got: ');
-                console.log(data);
-                resolve(data);
-            }, (err) => {
-                console.log(`Failed to get from: ${this.base}${path} error: ${err}`);
-                reject('Communication error or bad request');
-            });
+                .then((data) => {
+                    console.log('Got: ');
+                    console.log(data);
+                    resolve(data);
+                }, (err) => {
+                    console.log(`Failed to get from: ${this.base}${path} error: ${err}`);
+                    reject('Communication error or bad request');
+                });
         });
     }
 
@@ -51,16 +51,16 @@ class AuthPlzApi {
                 method: 'get',
                 credentials: this.credentials,
             }).then(res => res.json())
-            .then((data) => {
-                if (data.result === 'ok') {
-                    resolve(data.message);
-                } else {
-                    reject(data.message);
-                }
-            }, (err) => {
-                console.log(`Failed to get from: ${this.base}${path} error: ${err}`);
-                reject('Communication error or bad request');
-            });
+                .then((data) => {
+                    if (data.result === 'ok') {
+                        resolve(data.message);
+                    } else {
+                        reject(data.message);
+                    }
+                }, (err) => {
+                    console.log(`Failed to get from: ${this.base}${path} error: ${err}`);
+                    reject('Communication error or bad request');
+                });
         });
     }
 
@@ -78,16 +78,16 @@ class AuthPlzApi {
                 credentials: this.credentials,
                 body: formData,
             }).then(res => res.json())
-            .then((res) => {
-                if (res.result === 'ok') {
-                    resolve(res);
-                } else {
-                    reject(res);
-                }
-            }, () => {
-                console.log(`Failed to post to: ${this.base}${path}`);
-                reject('Communication error or bad request');
-            });
+                .then((res) => {
+                    if (res.result === 'ok') {
+                        resolve(res);
+                    } else {
+                        reject(res);
+                    }
+                }, () => {
+                    console.log(`Failed to post to: ${this.base}${path}`);
+                    reject('Communication error or bad request');
+                });
         });
     }
 
@@ -102,20 +102,20 @@ class AuthPlzApi {
                 },
                 body: JSON.stringify(data),
             }).then(res => res.json())
-            .then((response) => {
-                if (typeof response.result !== 'undefined') {
-                    if (response.result === 'ok') {
-                        resolve(response.message);
+                .then((response) => {
+                    if (typeof response.result !== 'undefined') {
+                        if (response.result === 'ok') {
+                            resolve(response.message);
+                        } else {
+                            reject(response.message);
+                        }
                     } else {
-                        reject(response.message);
+                        resolve(response);
                     }
-                } else {
-                    resolve(response);
-                }
-            }, () => {
-                console.log(`Failed to post to: ${this.base}${path}`);
-                reject('Communication error or bad request');
-            });
+                }, () => {
+                    console.log(`Failed to post to: ${this.base}${path}`);
+                    reject('Communication error or bad request');
+                });
         });
     }
 
@@ -139,31 +139,31 @@ class AuthPlzApi {
                 credentials: this.credentials,
                 body: formData,
             })
-            .then((resp) => {
-                const response = resp;
-                console.log('Login response');
-                console.log(resp);
+                .then((resp) => {
+                    const response = resp;
+                    console.log('Login response');
+                    console.log(resp);
 
-                // 200 is ok, 202 returns available 2fa methods
-                if ((resp.status === 200) || (resp.status === 202)) {
-                    return resp.json().then((data) => {
-                        response.data = data;
-                        resolve(response);
-                    });
-                }
-                if (resp.status === 400) {
-                    return reject('Bad request');
-                }
-                if (resp.status === 401) {
-                    return reject('Email or password error');
-                }
+                    // 200 is ok, 202 returns available 2fa methods
+                    if ((resp.status === 200) || (resp.status === 202)) {
+                        return resp.json().then((data) => {
+                            response.data = data;
+                            resolve(response);
+                        });
+                    }
+                    if (resp.status === 400) {
+                        return reject('Bad request');
+                    }
+                    if (resp.status === 401) {
+                        return reject('Email or password error');
+                    }
 
-                return reject('Unknown login error');
-            }, (err) => {
-                console.log('Login error');
-                console.log(err);
-                reject('Communication error or bad request');
-            });
+                    return reject('Unknown login error');
+                }, (err) => {
+                    console.log('Login error');
+                    console.log(err);
+                    reject('Communication error or bad request');
+                });
         });
     }
 
@@ -230,11 +230,13 @@ class AuthPlzApi {
 
     // Post a response to an authorization request
     CreateOauthClient(name, url, scopes, grants, responses) {
-        return this.PostJson('/api/oauth/clients', { name,
+        return this.PostJson('/api/oauth/clients', {
+            name,
             redirects: [url],
             scopes,
             grant_types: grants,
-            response_types: responses });
+            response_types: responses,
+        });
     }
 
     // Fetch a pending OAuth authorization
@@ -246,7 +248,6 @@ class AuthPlzApi {
     PostAuthorizationAccept(accept, state, scopes) {
         return this.PostJson('/api/oauth/auth', { accept, state, granted_scopes: scopes });
     }
-
 }
 
 const AuthPlz = new AuthPlzApi();

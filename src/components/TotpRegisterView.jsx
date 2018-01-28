@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';

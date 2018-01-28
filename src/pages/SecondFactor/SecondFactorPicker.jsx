@@ -1,5 +1,6 @@
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const SecondFactorLink = props =>
     <div>
@@ -8,7 +9,7 @@ const SecondFactorLink = props =>
     </div>;
 
 SecondFactorLink.propTypes = {
-    info: React.PropTypes.object.isRequired,
+    info: PropTypes.object.isRequired,
 };
 
 
@@ -22,9 +23,9 @@ const SecondFactorPicker = props =>
     </div>;
 
 SecondFactorPicker.propTypes = {
-    u2f: React.PropTypes.bool.isRequired,
-    totp: React.PropTypes.bool.isRequired,
-    backup: React.PropTypes.bool.isRequired,
+    u2f: PropTypes.bool.isRequired,
+    totp: PropTypes.bool.isRequired,
+    backup: PropTypes.bool.isRequired,
 };
 
 SecondFactorPicker.u2fInfo = {

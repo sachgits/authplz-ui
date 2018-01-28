@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Moment from 'react-moment';
+import { FormattedRelative } from 'react-intl';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
 
 import AlertView from '../../components/AlertView';
@@ -49,13 +49,13 @@ export default class OAuthClientView extends PureComponent {
                         <TableRow>
                             <TableRowColumn>Created At</TableRowColumn>
                             <TableRowColumn>
-                                <Moment fromNow>{props.client.created_at}</Moment>
+                                <FormattedRelative value={props.client.created_at} />
                             </TableRowColumn>
                         </TableRow>
                         <TableRow>
                             <TableRowColumn>Last Update</TableRowColumn>
                             <TableRowColumn>
-                                <Moment fromNow>{props.client.updated_at}</Moment>
+                                <FormattedRelative value={props.client.updated_at} />
                             </TableRowColumn>
                         </TableRow>
                     </TableBody>
