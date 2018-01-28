@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Moment from 'react-moment';
+import { FormattedRelative } from 'react-intl';
 
 import AuthPlz from '../../AuthPlz';
 import AlertView from '../../components/AlertView';
@@ -8,7 +8,8 @@ import AlertView from '../../components/AlertView';
 export default class AccountPage extends React.Component {
     constructor(props) {
         super(props);
-    // Create form state
+
+        // Create form state
         this.state = {
             user: {},
             alert: '',
@@ -37,8 +38,8 @@ export default class AccountPage extends React.Component {
             <div>
                 <h3>User: {user.Username}</h3>
                 <div>Email: {user.Email}</div>
-                <div>Created At: <Moment fromNow>{user.CreatedAt}</Moment></div>
-                <div>Last Login: <Moment fromNow>{user.LastLogin}</Moment></div>
+                <div>Created At: <FormattedRelative value={user.CreatedAt} /></div>
+                <div>Last Login: <FormattedRelative value={user.LastLogin} /></div>
                 <AlertView alert={alert} />
 
             </div>
