@@ -2,10 +2,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
 import './App.css';
 
 import CreateUserPage from './pages/CreateUser';
@@ -20,7 +16,7 @@ import OAuthCreatePage from './pages/OAuthCreate';
 import OAuthAuthorizePage from './pages/OAuthAuthorize';
 
 export default () => (
-    <MuiThemeProvider muiTheme={getMuiTheme(baseTheme)}>
+    <div className="main-content">
         <ul>
             <li><Link to="/create">Create User</Link></li>
             <li><Link to="/login">Login</Link></li>
@@ -41,5 +37,5 @@ export default () => (
             <Route path="/oauth-create" component={OAuthCreatePage} />
             <Route path="/oauth-authorize" component={OAuthAuthorizePage} />
         </Switch>
-    </MuiThemeProvider>
+    </div>
 );

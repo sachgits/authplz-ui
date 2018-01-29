@@ -1,7 +1,6 @@
 import React from 'react';
 
-import CircularProgress from 'material-ui/CircularProgress';
-import RaisedButton from 'material-ui/RaisedButton';
+import { BeatLoader } from 'react-spinners';
 
 import AuthPlz from '../../AuthPlz';
 import { u2f } from '../../lib/u2f-api';
@@ -85,12 +84,14 @@ class FidoAuthorizePage extends React.Component {
             <div>
                 <p>Please insert your U2F / Fido token and press the button if available</p>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <div hidden={!this.state.pending}> <CircularProgress /> </div>
+                    <div hidden={!this.state.pending}> <BeatLoader /> </div>
                 </div>
                 <p hidden={!this.state.error}>{this.state.error}</p>
 
                 <div hidden={!this.state.retry}>
-                    <RaisedButton label="Retry" primary onClick={this.onRetry} />
+                    <button className="btn btn-primary" onClick={this.onRetry}>
+                        Retry
+                    </button>
                 </div>
 
                 <p hidden={!this.state.done}>U2F Authorization Complete</p>

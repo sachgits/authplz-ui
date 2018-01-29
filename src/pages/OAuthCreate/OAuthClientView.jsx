@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { FormattedRelative } from 'react-intl';
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
 
 import AlertView from '../../components/AlertView';
 
@@ -22,7 +21,6 @@ export default class OAuthClientView extends PureComponent {
         return (
             <div>
                 <h1>Client: {props.client.name}</h1>
-                <br />
 
                 <h3>Client ID:</h3>
                 <p>{props.client.id}</p>
@@ -32,34 +30,34 @@ export default class OAuthClientView extends PureComponent {
                     <p>IMPORTANT: This secret will only be displayed once.</p>
                 </div>
 
-                <Table selectable={false} bordered condensed>
-                    <TableBody displayRowCheckbox={false}>
-                        <TableRow>
-                            <TableRowColumn>Scopes</TableRowColumn>
-                            <TableRowColumn>{props.client.scopes.join(', ')}</TableRowColumn>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn>Redirects</TableRowColumn>
-                            <TableRowColumn>{props.client.redirects.join(', ')}</TableRowColumn>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn>Grants</TableRowColumn>
-                            <TableRowColumn>{props.client.grants.join(', ')}</TableRowColumn>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn>Created At</TableRowColumn>
-                            <TableRowColumn>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Scopes</td>
+                            <td>{props.client.scopes.join(', ')}</td>
+                        </tr>
+                        <tr>
+                            <td>Redirects</td>
+                            <td>{props.client.redirects.join(', ')}</td>
+                        </tr>
+                        <tr>
+                            <td>Grants</td>
+                            <td>{props.client.grants.join(', ')}</td>
+                        </tr>
+                        <tr>
+                            <td>Created At</td>
+                            <td>
                                 <FormattedRelative value={props.client.created_at} />
-                            </TableRowColumn>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowColumn>Last Update</TableRowColumn>
-                            <TableRowColumn>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Last Update</td>
+                            <td>
                                 <FormattedRelative value={props.client.updated_at} />
-                            </TableRowColumn>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
                 <AlertView alert={props.alert} />
 

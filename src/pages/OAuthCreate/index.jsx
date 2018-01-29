@@ -2,7 +2,6 @@ import React from 'react';
 
 import validator from 'validator';
 
-import Centerer from '../../components/Centerer';
 import OAuthCreateView from './OAuthCreateView';
 import OAuthClientView from './OAuthClientView';
 
@@ -110,7 +109,7 @@ class OAuthCreatePage extends React.Component {
 
     render() {
         return (
-            <Centerer>
+            <div>
                 <div hidden={this.state.clientLoaded}>
                     <OAuthCreateView
                       scopes={this.state.allowed_scopes}
@@ -127,7 +126,7 @@ class OAuthCreatePage extends React.Component {
                       client={this.state.client}
                     />
                 </div>
-            </Centerer>
+            </div>
         );
     }
 }

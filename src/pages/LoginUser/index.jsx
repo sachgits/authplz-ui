@@ -1,16 +1,10 @@
 import React from 'react';
 
-import Centerer from '../../components/Centerer';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import { Link } from 'react-router-dom';
 
+import TextInput from '../../components/TextInput';
 import AlertView from '../../components/AlertView';
-
 import AuthPlz from '../../AuthPlz';
-
-const buttonStyle = {
-    margin: 10,
-};
 
 const validate = (state) => {
     const errors = {};
@@ -96,43 +90,39 @@ class LoginUserPage extends React.Component {
 
     render() {
         return (
-            <Centerer>
-                <TextField
-                id="email" floatingLabelText="Email"
-                value={this.state.email}
-                onChange={this.handleEmailChange}
-                fullWidth
-                errorText={this.state.errors.email}
-                onKeyPress={this.handleKeyPress}
+            <fieldset>
+                <TextInput
+                    id="email"
+                    labelText="Email"
+                    value={this.state.email}
+                    onChange={this.handleEmailChange}
+                    fullWidth
+                    errorText={this.state.errors.email}
+                    onKeyPress={this.handleKeyPress}
                 />
 
-                <TextField
-                id="password" floatingLabelText="Password"
-                value={this.state.password}
-                type="password"
-                onChange={this.handlePasswordChange}
-                fullWidth
-                errorText={this.state.errors.password}
-                onKeyPress={this.handleKeyPress}
+                <TextInput
+                    id="password"
+                    labelText="Password"
+                    value={this.state.password}
+                    type="password"
+                    onChange={this.handlePasswordChange}
+                    fullWidth
+                    errorText={this.state.errors.password}
+                    onKeyPress={this.handleKeyPress}
                 />
 
                 <AlertView alert={this.state.alert} />
 
-                <br /><br />
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <RaisedButton
-                    label="Create Account"
-                    style={buttonStyle}
-                    href="/#/create"
-                    />
-                    <RaisedButton
-                    label="Login"
-                    primary
-                    style={buttonStyle}
-                    onClick={this.handleSubmit}
-                    />
+                    <Link to="/create" className="btn btn-secondary">
+                        New user?
+                    </Link>
+                    <button onClick={this.handleSubmit} className="btn btn-primary">
+                        Login
+                    </button>
                 </div>
-            </Centerer>
+            </fieldset>
         );
     }
 }

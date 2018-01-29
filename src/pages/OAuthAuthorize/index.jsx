@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 
-import Centerer from '../../components/Centerer';
 import OAuthAuthorizeView from './OAuthAuthorizeView';
 
 import AuthPlz from '../../AuthPlz';
@@ -60,7 +59,7 @@ class OAuthAuthorizePage extends PureComponent {
 
     render() {
         return (
-            <Centerer>
+            <div>
                 <div hidden={this.state.pending}>
                     <p>No pending authorizations found</p>
                 </div>
@@ -77,7 +76,7 @@ class OAuthAuthorizePage extends PureComponent {
                 <div hidden={!this.state.done}>
                     <p>Client authorization complete</p>
                 </div>
-            </Centerer>
+            </div>
         );
     }
 }

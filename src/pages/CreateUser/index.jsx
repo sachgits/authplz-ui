@@ -3,13 +3,11 @@ import React from 'react';
 
 import validator from 'validator';
 
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-
-
+import TextInput from '../../components/TextInput';
 import AlertView from '../../components/AlertView';
 
 import AuthPlz from '../../AuthPlz';
+import { Link } from 'react-router-dom';
 
 const validateUserFields = (state) => {
     const errors = {};
@@ -135,19 +133,21 @@ class CreateUserPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <TextField
+            <fieldset>
+                <TextInput
                   id="username"
-                  floatingLabelText="Username"
+                  className="form-group"
+                  labelText="Username"
                   value={this.state.username}
                   onChange={this.handleUsernameChange}
-                  fullWidth
                   errorText={this.state.errors.username}
                   onKeyPress={this.handleKeyPress}
                 />
 
-                <TextField
-                  id="email" floatingLabelText="Email"
+                <TextInput
+                  id="email"
+                  className="form-group"
+                  labelText="Email"
                   value={this.state.email}
                   onChange={this.handleEmailChange}
                   fullWidth
@@ -155,8 +155,10 @@ class CreateUserPage extends React.Component {
                   onKeyPress={this.handleKeyPress}
                 />
 
-                <TextField
-                  id="password1" floatingLabelText="Password"
+                <TextInput
+                  id="password1"
+                  className="form-group"
+                  labelText="Password"
                   value={this.state.passwordOne}
                   onChange={this.handlePasswordOneChange}
                   type="password"
@@ -164,8 +166,10 @@ class CreateUserPage extends React.Component {
                   onKeyPress={this.handleKeyPress}
                 />
 
-                <TextField
-                  id="password2" floatingLabelText="Password (again)"
+                <TextInput
+                  id="password2"
+                  className="form-group"
+                  labelText="Password (again)"
                   value={this.state.passwordTwo}
                   onChange={this.handlePasswordTwoChange}
                   type="password"
@@ -177,19 +181,14 @@ class CreateUserPage extends React.Component {
                 <AlertView alert={this.state.result} />
 
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <RaisedButton
-                      label="Existing Account"
-                      style={{ margin: '10px' }}
-                      href="/#/login"
-                    />
-                    <RaisedButton
-                      label="Create"
-                      primary
-                      style={{ margin: '10px' }}
-                      onClick={this.onSubmit}
-                    />
+                    <Link to="/login" className="btn btn-secondary">
+                        Existing Account
+                    </Link>
+                    <button onClick={this.onSubmit} className="btn btn-primary">
+                        Create
+                    </button>
                 </div>
-            </div>
+            </fieldset>
         );
     }
 }

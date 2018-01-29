@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
-import CircularProgress from 'material-ui/CircularProgress';
+import TextInput from '../../components/TextInput';
+import { BeatLoader } from 'react-spinners';
 
 import AlertView from '../../components/AlertView';
 
@@ -105,54 +103,55 @@ class FidoRegisterPage extends React.Component {
     }
 
     render() {
+        const enterNameStep = (
+            <div>
+                
+                <TextInput
+                    labelText="Enter a name for the new U2F Token"
+                    value={this.state.name}
+                    onChange={this.handleNameChange}
+                />
+                <AlertView alert={this.state.error} />
+                <button onClick={this.onSubmit} className="btn btn-primary">
+                    Next
+                </button>
+            </div>
+        );
+
+        const securityKeyStep = (
+            <div>
+                <h1>Insert your security key</h1>
+                <p>
+                    If your device has a button please press it, otherwise remove and reinsert the device
+                </p>
+                <div hidden={!this.state.pending}>
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                        <BeatLoader />
+                    </div>
+                </div>
+                <AlertView alert={this.state.error} />
+                <div hidden={!this.state.retry}>
+                    <button onClick={this.onRetry} className="btn btn-primary">
+                        Retry
+                    </button>
+                </div>
+            </div>
+        );
+
+        const registrationCompleteStep = (
+            <div>
+                <h1>U2F Registration Complete</h1>
+                <p>
+                    Successfully enrolled device: {this.state.name}
+                </p>
+            </div>
+        );
+
         return (
             <div>
-                <Stepper activeStep={this.state.stateIndex} orientation="vertical">
-                    <Step onKeyPress={this.handleKeyPress}>
-                        <StepLabel>Enter a name for the new U2F Token</StepLabel>
-                        <StepContent>
-                            <TextField
-                              id="name" floatingLabelText="Name"
-                              value={this.state.name}
-                              onChange={this.handleNameChange}
-                              fullWidth
-                            />
-                            <AlertView alert={this.state.error} />
-                            <RaisedButton label="Register" primary onClick={this.onSubmit} />
-                        </StepContent>
-                    </Step>
-                    <Step>
-                        <StepLabel>Insert your security key</StepLabel>
-                        <StepContent>
-                            <p>If your device has a button please press it,
-                                otherwise remove and reinsert the device</p>
-                            <br /> <br />
-                            <div hidden={!this.state.pending}>
-                                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                    <CircularProgress />
-                                </div>
-                            </div>
-                            <AlertView alert={this.state.error} />
-                            <div hidden={!this.state.retry}>
-                                <RaisedButton
-                                  label="Retry"
-                                  primary
-                                  style={{ margin: '10px' }}
-                                  onClick={this.onRetry}
-                                />
-                            </div>
-                        </StepContent>
-                    </Step>
-                    <Step>
-                        <StepLabel completed={this.state.done}>U2F Registration Complete</StepLabel>
-                        <StepContent>
-                            <p>
-                                Successfully enrolled device: {this.state.name}
-                            </p>
-                        </StepContent>
-                    </Step>
-                </Stepper>
-
+                {this.state.stateIndex === 0 && enterNameStep}
+                {this.state.stateIndex === 1 && securityKeyStep}
+                {this.state.stateIndex === 2 && registrationCompleteStep}
             </div>
         );
     }

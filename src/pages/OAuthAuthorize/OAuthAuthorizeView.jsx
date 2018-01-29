@@ -55,7 +55,6 @@ class OAuthAuthorizeView extends React.Component {
                   onChange={this.handleScopesChange}
                 />
 
-                <br /><br />
                 <AlertView alert={this.props.alert} />
 
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>

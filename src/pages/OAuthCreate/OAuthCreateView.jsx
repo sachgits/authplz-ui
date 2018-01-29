@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import { Link } from 'react-router-dom';
 
+import TextInput from '../../components/TextInput';
 import AlertView from '../../components/AlertView';
 import ScopeSelector from '../../components/ScopeSelector';
-
-const buttonStyle = {
-    margin: 10,
-};
 
 class OAuthCreateView extends React.Component {
     constructor(props) {
@@ -65,20 +61,21 @@ class OAuthCreateView extends React.Component {
             <div>
                 <h1>OAuth Client Creation</h1>
 
-                <TextField
-                  id="name" floatingLabelText="Client Name"
-                  value={this.state.name}
-                  onChange={this.handleNameChange}
-                  fullWidth
-                  errorText={this.props.errors.name}
+                <TextInput
+                    id="name"
+                    labelText="Client Name"
+                    value={this.state.name}
+                    onChange={this.handleNameChange}
+                    fullWidth
+                    errorText={this.props.errors.name}
                 />
-
-                <TextField
-                  id="url" floatingLabelText="Client URL (redirect)"
-                  value={this.state.url}
-                  onChange={this.handleURLChange}
-                  fullWidth
-                  errorText={this.props.errors.url}
+                <TextInput
+                    id="url"
+                    labelText="Client URL (redirect)"
+                    value={this.state.url}
+                    onChange={this.handleURLChange}
+                    fullWidth
+                    errorText={this.props.errors.url}
                 />
 
                 <h3>Scopes</h3>
@@ -95,22 +92,15 @@ class OAuthCreateView extends React.Component {
                   onChange={this.handleGrantChange}
                 />
 
-                <br /><br />
-
                 <AlertView alert={this.props.alert} />
 
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <RaisedButton
-                      label="Cancel"
-                      style={buttonStyle}
-                      href="/#"
-                    />
-                    <RaisedButton
-                      label="Create"
-                      style={buttonStyle}
-                      primary
-                      onClick={this.handleSubmit}
-                    />
+                    <Link to="/" className="btn btn-secondary">
+                        Cancel
+                    </Link>
+                    <button onClick={this.handleSubmit} className="btn btn-primary">
+                        Create
+                    </button>
                 </div>
             </div>
         );
