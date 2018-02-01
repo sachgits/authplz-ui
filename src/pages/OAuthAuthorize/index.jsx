@@ -44,7 +44,7 @@ export default class OAuthAuthorizePage extends PureComponent {
                     oauthStateString: resp.state,
                     name: resp.name,
                     id: resp.id,
-                    requestedScopes: resp.scopes,
+                    requestedScopes: scopes,
                 });
             })
             .catch(error => {
