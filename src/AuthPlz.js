@@ -9,34 +9,23 @@ import { REACT_APP_API_SERVER } from './const';
 
 // AuthPlz API interface class
 class AuthPlzApi {
-    constructor(base) {
-        this.base = base || REACT_APP_API_SERVER || '';
-        this.credentials = 'include';
-    }
+    base = REACT_APP_API_SERVER || '';
+    credentials = 'include';
 
     GetJson(path, params) {
-        let queryData = '';
-        if (typeof params !== 'undefined') {
-            queryData += '?';
-            Object.keys(params).forEach((i) => {
-                queryData += `${i}=${params[i]}`;
-            });
-        }
+        const queryParams = new URLSearchParams(params);
+        const queryString = `${this.base}${path}${queryParams.toString()}`
 
-        return new Promise((resolve, reject) => {
-            fetch(this.base + path + queryData, {
+        return fetch(queryString, {
                 method: 'get',
                 credentials: this.credentials,
-            }).then(res => res.json())
-                .then((data) => {
-                    console.log('Got: ');
-                    console.log(data);
-                    resolve(data);
-                }, (err) => {
-                    console.log(`Failed to get from: ${this.base}${path} error: ${err}`);
-                    reject('Communication error or bad request');
-                });
-        });
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw res.statusText;
+                }
+                return res.json();
+            });
     }
 
     // API get helper
@@ -245,8 +234,12 @@ class AuthPlzApi {
     }
 
     // Post a response to an authorization request
-    PostAuthorizationAccept(accept, state, scopes) {
-        return this.PostJson('/api/oauth/auth', { accept, state, granted_scopes: scopes });
+    PostAuthorizationAccept(accept, oauthStateString, scopes) {
+        return this.PostJson('/api/oauth/auth', {
+            accept,
+            state: oauthStateString,
+            granted_scopes: scopes
+        });
     }
 }
 

@@ -1,57 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Toggle from 'material-ui/Toggle';
+import Toggle from 'react-toggle-switch';
 
 class ScopeSelector extends React.Component {
     constructor(props) {
         super(props);
 
-    // Parse props
-        const scopes = {};
-        this.props.scopes.forEach((scope) => {
-            scopes[scope] = this.props.default;
-        });
-
-    // Create form state
+        // Create form state
         this.state = {
-            scopes,
+            scopes: this.props.scopes.reduce((scopes, scope) => ({
+                ...scopes,
+                [scope]: this.props.default,
+            }), {}),
         };
-
-        this.bindHandleScopeChange = this.bindHandleScopeChange.bind(this);
     }
 
-  // Binder function for each state entry
-    bindHandleScopeChange(a) {
-        return function (e, toggled) {
-            const scopes = this.state.scopes;
-            scopes[a.scope] = toggled;
-            this.setState({ scopes });
-
-            const scopeArr = [];
-            this.props.scopes.forEach((scope) => {
-                if (this.state.scopes[scope] === true) {
-                    scopeArr.push(scope);
-                }
-            });
-
-            console.log(scopeArr);
-
-            this.props.onChange(scopeArr);
-        }.bind(this);
+    onScopeChange = (scope) => {
+        const scopes = this.state.scopes;
+        scopes[scope] = !scopes[scope];
+        this.setState(prevState => ({
+            ...prevState.scopes,
+            [scope]: !prevState.scopes[scope],
+        }), () => {
+            const enabledScopes = Object.keys(scopes)
+                .filter(scope => this.state.scopes[scope]);
+            console.log(enabledScopes);
+            this.props.onChange(enabledScopes);
+        });
     }
 
-  // Render the selectable state list
     render() {
         return (
             <div>
-                {this.props.scopes.map(scope =>
-                    <Toggle
-                      key={scope}
-                      label={scope}
-                      defaultToggled={this.props.default}
-                      onToggle={this.bindHandleScopeChange({ scope })}
-                    />,
-        )}
+                {this.props.scopes && this.props.scopes.map(scope =>
+                    <div key={scope}>
+                        {scope}
+                        <Toggle
+                            on={this.state.scopes[scope]}
+                            onClick={() => this.onScopeChange(scope)}
+                        />
+                    </div>
+                )}
             </div>
         );
     }
