@@ -13,7 +13,6 @@ export default class TextInput extends PureComponent {
 			type,
 			value,
 			onChange,
-			isInvalid,
 			subtextClass,
 			errorSubtextClass,
 			hintSubtextClass,
@@ -22,6 +21,7 @@ export default class TextInput extends PureComponent {
 			errorText,
 			hintText,
 		} = this.props;
+		const isInvalid = errorText != null;
 
 		const subtextClasses = cn(
 			subtextClass,

@@ -60,23 +60,20 @@ class AuthPlzApi {
             formData.append(i, data[i]);
         });
 
-        return new Promise((resolve, reject) => {
-            // Call fetch
-            fetch(this.base + path, {
-                method: 'post',
-                credentials: this.credentials,
-                body: formData,
-            }).then(res => res.json())
-                .then((res) => {
-                    if (res.result === 'ok') {
-                        resolve(res);
-                    } else {
-                        reject(res);
-                    }
-                }, () => {
-                    console.log(`Failed to post to: ${this.base}${path}`);
-                    reject('Communication error or bad request');
-                });
+        return fetch(`${this.base}${path}`, {
+            method: 'post',
+            credentials: this.credentials,
+            body: formData,
+        }).then(res => {
+            if (!res.ok) {
+                throw res.statusText;
+            }
+            return res.json();
+        }).then(response => {
+            if (response.code != null) {
+                throw response.code;
+            }
+            return response;
         });
     }
 
