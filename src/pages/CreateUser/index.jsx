@@ -1,133 +1,111 @@
 
 import React from 'react';
 
-import validator from 'validator';
-
 import TextInput from '../../components/TextInput';
 import AlertView from '../../components/AlertView';
 
 import AuthPlz from '../../AuthPlz';
 import { Link } from 'react-router-dom';
 
-const validateUserFields = (state) => {
-    const errors = {};
-
-    // Errors shown after submitted state is set
-    if (state.submitted) {
-        // TODO: could / should? validate username existence here
-        if ((typeof state.username === 'undefined') || (state.username.length === 0)) {
-            errors.username = 'username required';
-        } else if (!validator.isAlphanumeric(state.username)) {
-            errors.username = 'username must consist of alphanumeric characters';
-        }
-
-        if ((typeof state.email === 'undefined') || (state.email.length === 0)) {
-            errors.email = 'email address required';
-        } else if (!validator.isEmail(state.email)) {
-            errors.email = 'email address must be of the form a@b.com';
-        }
-
-        if ((state.passwordOne.length === 0) || (state.passwordTwo.length === 0)) {
-            errors.password = 'password must be set';
-        } else if (state.passwordOne !== state.passwordTwo) {
-            errors.password = 'Password mismatch';
-        }
-    }
-
-    return errors;
-};
+import {
+    validateUsername,
+    validateEmail,
+    validatePassword,
+    validateConfirmPassword,
+} from './helpers';
 
 class CreateUserPage extends React.Component {
     constructor(props) {
         super(props);
-      // Create form state
+
         this.state = {
-            submitted: false,
             username: '',
             email: '',
-            passwordOne: '',
-            passwordTwo: '',
-            successMessage: '',
-            errors: {
-                username: '',
-                email: '',
-                password: '',
-            },
-            error: '',
-            result: '',
+            password: '',
+            confirmPassword: '',
+            usernameError: null,
+            emailError: null,
+            passwordError: null,
+            confirmPasswordError: null,
+            result: null,
         };
-        this.onSubmit = this.onSubmit.bind(this);
-
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handleUsernameChange = this.handleUsernameChange.bind(this);
-        this.handlePasswordOneChange = this.handlePasswordOneChange.bind(this);
-        this.handlePasswordTwoChange = this.handlePasswordTwoChange.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
-    onSubmit() {
+    onSubmit = () => {
         this.setState(prevState => ({
-            submitted: true,
-            errors: validateUserFields(prevState),
+            usernameError: validateUsername(prevState.username),
+            emailError: validateEmail(prevState.email),
+            passwordError: validatePassword(prevState.password),
+            confirmPasswordError: validateConfirmPassword(prevState.password, prevState.confirmPassword),
         }), () => {
-            if (this.state.errors) {
+            const state = this.state;
+            if (state.usernameError == null && state.emailError == null && state.passwordError == null && state.confirmPasswordError == null) {
                 AuthPlz.CreateUser(this.state.email, this.state.username, this.state.passwordOne)
-                    .then((response) => {
-                        if (response.result === 'error') {
-                            this.setState({ error: response.message });
-                        } else {
-                            this.setState({ result: response.message });
-                        }
-                    }, (response) => {
-                        if (typeof response.message !== 'undefined') {
-                            this.setState({ result: response.message });
-                        } else {
-                            this.setState({ result: response });
-                        }
-                    });
+                    .then(response => this.setState({ result: response.message }))
+                    .catch(error => this.setState({ error }));
             }
         });
     }
 
-    handleKeyPress(e) {
+    onKeyDown = (e) => {
         if (e.key === 'Enter') {
             this.onSubmit(this.state);
         }
     }
 
-    handleUsernameChange(e) {
-        const state = this.state;
-        state.username = e.target.value;
-        this.setState({
-            username: e.target.value,
-            errors: validateUserFields(state),
+    onUsernameChange = (e) => {
+        const username = e.target.value;
+        this.setState(prevState => {
+            const usernameError = prevState.usernameError != null
+                ? validateUsername(username)
+                : null;
+            return {
+                usernameError,
+                username,
+            }
         });
     }
 
-    handleEmailChange(e) {
-        const state = this.state;
-        state.email = e.target.value;
-        this.setState({
-            email: e.target.value,
-            errors: validateUserFields(state),
+    onEmailChange = (e) => {
+        const email = e.target.value;
+        this.setState(prevState => {
+            const emailError = prevState.emailError != null
+                ? validateEmail(email)
+                : null;
+            return {
+                emailError,
+                email,
+            }
         });
     }
 
-    handlePasswordOneChange(e) {
-        const state = this.state;
-        state.passwordOne = e.target.value;
-        this.setState({
-            passwordOne: e.target.value,
-            errors: validateUserFields(this.state),
+    onPasswordChange = (e) => {
+        const password = e.target.value;
+        this.setState(prevState => {
+            const passwordError = prevState.passwordError != null
+                ? validatePassword(password)
+                : null;
+            const confirmPasswordError = prevState.confirmPasswordError != null
+                ? validatePassword(password, prevState.confirmPassword)
+                : null;
+            return {
+                passwordError,
+                confirmPasswordError,
+                password,
+            }
         });
     }
 
-    handlePasswordTwoChange(e) {
-        const state = this.state;
-        state.passwordTwo = e.target.value;
-        this.setState({
-            passwordTwo: e.target.value,
-            errors: validateUserFields(this.state),
+    onConfirmPasswordChange = (e) => {
+        const confirmPassword = e.target.value;
+        this.setState(prevState => {
+            const confirmPasswordError = prevState.confirmPasswordError != null
+                ? validatePassword(prevState.password, confirmPassword)
+                : null;
+            return {
+                confirmPasswordError,
+                confirmPassword,
+            }
         });
     }
 
@@ -135,47 +113,37 @@ class CreateUserPage extends React.Component {
         return (
             <fieldset>
                 <TextInput
-                  id="username"
                   className="form-group"
                   labelText="Username"
                   value={this.state.username}
-                  onChange={this.handleUsernameChange}
-                  errorText={this.state.errors.username}
-                  onKeyPress={this.handleKeyPress}
+                  onChange={this.onUsernameChange}
+                  errorText={this.state.usernameError}
                 />
 
                 <TextInput
-                  id="email"
                   className="form-group"
                   labelText="Email"
                   value={this.state.email}
-                  onChange={this.handleEmailChange}
-                  fullWidth
-                  errorText={this.state.errors.email}
-                  onKeyPress={this.handleKeyPress}
+                  onChange={this.onEmailChange}
+                  errorText={this.state.emailError}
                 />
 
                 <TextInput
-                  id="password1"
                   className="form-group"
                   labelText="Password"
-                  value={this.state.passwordOne}
-                  onChange={this.handlePasswordOneChange}
+                  value={this.state.password}
+                  onChange={this.onPasswordChange}
+                  errorText={this.state.passwordError}
                   type="password"
-                  fullWidth
-                  onKeyPress={this.handleKeyPress}
                 />
 
                 <TextInput
-                  id="password2"
                   className="form-group"
                   labelText="Password (again)"
-                  value={this.state.passwordTwo}
-                  onChange={this.handlePasswordTwoChange}
+                  value={this.state.confirmPassword}
+                  onChange={this.onConfirmPasswordChange}
+                  errorText={this.state.confirmPasswordError}
                   type="password"
-                  fullWidth
-                  errorText={this.state.errors.password}
-                  onKeyPress={this.handleKeyPress}
                 />
 
                 <AlertView alert={this.state.result} />
