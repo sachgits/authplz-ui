@@ -6,7 +6,10 @@ import { BeatLoader } from 'react-spinners';
 
 import ScopeSelector from '../../components/ScopeSelector';
 
-import AuthPlz from '../../AuthPlz';
+import {
+    getPendingAuthorization,
+    postAuthorizationAccept,
+} from '../../AuthPlz';
 
 const states = {
     LOADING: 'LOADING',
@@ -33,7 +36,7 @@ export default class OAuthAuthorizePage extends PureComponent {
     }
 
     componentDidMount() {
-        AuthPlz.GetPendingAuthorization()
+        getPendingAuthorization()
             .then((resp) => {
                 const {
                     scopes
@@ -56,7 +59,7 @@ export default class OAuthAuthorizePage extends PureComponent {
     }
 
     onSubmit() {
-        AuthPlz.PostAuthorizationAccept(true, this.state.oauthStateString, this.state.scopes)
+        postAuthorizationAccept(true, this.state.oauthStateString, this.state.scopes)
             .then(response => {
                 window.location = response.location; // location is the return from OAuth service that states where to redirect back to
             })

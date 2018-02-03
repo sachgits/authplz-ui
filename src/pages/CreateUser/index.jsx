@@ -4,7 +4,7 @@ import React from 'react';
 import TextInput from '../../components/TextInput';
 import AlertView from '../../components/AlertView';
 
-import AuthPlz from '../../AuthPlz';
+import { createUser } from '../../AuthPlz';
 import { Link } from 'react-router-dom';
 
 import {
@@ -39,8 +39,19 @@ class CreateUserPage extends React.Component {
             confirmPasswordError: validateConfirmPassword(prevState.password, prevState.confirmPassword),
         }), () => {
             const state = this.state;
-            if (state.usernameError == null && state.emailError == null && state.passwordError == null && state.confirmPasswordError == null) {
-                AuthPlz.CreateUser(this.state.email, this.state.username, this.state.passwordOne)
+            const formIsValid = (
+                state.usernameError == null
+                && state.emailError == null
+                && state.passwordError == null
+                && state.confirmPasswordError == null
+            );
+
+            if (formIsValid) {
+                createUser({
+                    email: this.state.email,
+                    username: this.state.username,
+                    password: this.state.password
+                })
                     .then(response => this.setState({ result: response.message }))
                     .catch(error => this.setState({ error }));
             }
@@ -111,7 +122,7 @@ class CreateUserPage extends React.Component {
 
     render() {
         return (
-            <fieldset>
+            <fieldset onKeyDown={this.onKeyDown}>
                 <TextInput
                   className="form-group"
                   labelText="Username"
@@ -148,13 +159,13 @@ class CreateUserPage extends React.Component {
 
                 <AlertView alert={this.state.result} />
 
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <Link to="/login" className="btn btn-secondary">
-                        Existing Account
-                    </Link>
-                    <button onClick={this.onSubmit} className="btn btn-primary">
+                <div className="flex-column align-items-center pt-2">
+                    <button onClick={this.onSubmit} className="btn btn-primary btn-block">
                         Create
                     </button>
+                    <Link to="/login" className="btn btn-link d-block mt-2">
+                        Existing Account
+                    </Link>
                 </div>
             </fieldset>
         );

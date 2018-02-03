@@ -2,8 +2,8 @@ import React from 'react';
 
 import { FormattedRelative } from 'react-intl';
 
-import AuthPlz from '../../AuthPlz';
-import AlertView from '../../components/AlertView';
+import { account } from '../../AuthPlz';
+import { Redirect } from 'react-router';
 
 export default class AccountPage extends React.Component {
     constructor(props) {
@@ -15,22 +15,19 @@ export default class AccountPage extends React.Component {
             alert: '',
         };
 
-        AuthPlz.Account().then((user) => {
-            this.setState({ user });
-        }, (err) => {
-            console.log(err);
-            this.setState({ alert: err });
-        });
+        account()
+            .then(user => {console.log(user); this.setState({ user })})
+            .catch(error => this.setState({ error }));
     }
 
     render() {
         const {
             user,
-            alert,
         } = this.state;
+
         if (user == null) {
             return (
-                <div>No user logged in</div>
+                <Redirect to="/login" />
             );
         }
 
@@ -40,8 +37,6 @@ export default class AccountPage extends React.Component {
                 <div>Email: {user.Email}</div>
                 <div>Created At: <FormattedRelative value={user.CreatedAt} /></div>
                 <div>Last Login: <FormattedRelative value={user.LastLogin} /></div>
-                <AlertView alert={alert} />
-
             </div>
         );
     }
