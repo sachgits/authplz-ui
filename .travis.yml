@@ -1,6 +1,10 @@
 language: node_js
 sudo: false
 
+env:
+  - AUTHPLZ_API=""
+  - AUTHPLZ_API=https://authplz.herokuapp.com 
+
 node_js:
   - node
 
@@ -23,6 +27,7 @@ deploy:
     repo: authplz/authplz-ui
     branch: master
     tags: true
+  env: AUTHPLZ_API=""
 - provider: pages
   local-dir: build
   skip_cleanup: true
@@ -33,6 +38,7 @@ deploy:
   on:
     repo: authplz/authplz-ui
     branch: master
+  env: AUTHPLZ_API=https://authplz.herokuapp.com 
   
 
 notifications:
