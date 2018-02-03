@@ -47,7 +47,6 @@ export default class TextInput extends PureComponent {
 					className={inputClassNames}
 					value={value}
 					onChange={onChange}
-					invalid={isInvalid}
 					onKeyPress={onKeyPress}
 					type={type}
 				/>
@@ -76,9 +75,7 @@ TextInput.propTypes = {
 	type: PropTypes.string,
 	/* Callback for when the text input changes */
 	onChange: PropTypes.func,
-	/* Whether to render the input as invalid and show error text instead of hint text */
-	isInvalid: PropTypes.bool,
-	/* Text to show while the input is in an error state - will not be shown if isInvalid={false} */
+	/* Text to show while the input is in an error state */
 	errorText: PropTypes.string,
 	/* Text to show as a hint for the input */
 	hintText: PropTypes.string,

@@ -1,1 +1,1 @@
-export const REACT_APP_API_SERVER = 'https://authplz.herokuapp.com';
+export const REACT_APP_API_SERVER = 'http://192.168.1.28:9000';

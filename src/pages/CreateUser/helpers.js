@@ -39,7 +39,7 @@ export const validatePassword = password => {
 export const validateConfirmPassword = (password, confirmPassword) => {
     if (confirmPassword == null || confirmPassword === '') {
         return confirmPasswordErrors.CONFIRM_PASSWORD_EMPTY;
-    } else if (password !== confirmPasswordErrors) {
+    } else if (password !== confirmPassword) {
         return confirmPasswordErrors.PASSWORD_MISMATCH;
     }
 }

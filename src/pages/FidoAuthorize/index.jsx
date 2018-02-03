@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BeatLoader } from 'react-spinners';
 
-import AuthPlz from '../../AuthPlz';
+import { getU2FTokenAuthorize, postU2FTokenAuthorize } from '../../AuthPlz';
 import { u2f } from '../../lib/u2f-api';
 
 class FidoAuthorizePage extends React.Component {
@@ -22,7 +22,7 @@ class FidoAuthorizePage extends React.Component {
 
     componentDidMount() {
     // Request authorization challenge
-        AuthPlz.GetU2FTokenAuthorize().then(this.handleAuthorizationRequest, (error) => {
+        getU2FTokenAuthorize().then(this.handleAuthorizationRequest, (error) => {
             console.log('GetU2FTokenAuthorize Error');
             console.log(error);
             this.setState({ error, retry: false, pending: false, done: false });
@@ -70,7 +70,7 @@ class FidoAuthorizePage extends React.Component {
         }
 
     // Return response to server
-        AuthPlz.PostU2FTokenAuthorize(resp).then(() => {
+        postU2FTokenAuthorize(resp).then(() => {
             console.log('Authorization complete');
             this.setState({ pending: false, done: true });
         }, (err) => {

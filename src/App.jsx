@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import './App.css';
+import { logout } from './AuthPlz';
 
 import CreateUserPage from './pages/CreateUser';
 import LoginUserPage from './pages/LoginUser';
@@ -16,26 +17,31 @@ import OAuthCreatePage from './pages/OAuthCreate';
 import OAuthAuthorizePage from './pages/OAuthAuthorize';
 
 export default () => (
-    <div className="main-content">
-        <ul>
-            <li><Link to="/create">Create User</Link></li>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/account">Account</Link></li>
-            <li><Link to="/2fa">Choose 2fa</Link></li>
-            <li><Link to="/2fa-u2f-register">Register U2F token</Link></li>
-            <li><Link to="/2fa-u2f-authorize">U2F Authorize</Link></li>
-            <li><Link to="/oauth-create">Create OAuth Client</Link></li>
-            <li><Link to="/oauth-authorize">Authorize OAuth</Link></li>
-        </ul>
-        <Switch>
-            <Route path="/create" component={CreateUserPage} />
-            <Route path="/login" component={LoginUserPage} />
-            <Route path="/account" component={AccountPage} />
-            <Route path="/2fa" component={SecondFactorPage} />
-            <Route path="/2fa-u2f-register" component={FidoRegisterPage} />
-            <Route path="/2fa-u2f-authorize" component={FidoAuthorizePage} />
-            <Route path="/oauth-create" component={OAuthCreatePage} />
-            <Route path="/oauth-authorize" component={OAuthAuthorizePage} />
-        </Switch>
+    <div>
+        <div className="btn-group">
+            <Link className="btn btn-secondary" to="/create">Create User</Link>
+            <Link className="btn btn-secondary" to="/login">Login</Link>
+            <Link className="btn btn-secondary" to="/account">Account</Link>
+            <Link className="btn btn-secondary" to="/2fa">Choose 2fa</Link>
+            <Link className="btn btn-secondary" to="/2fa-u2f-register">Register U2F token</Link>
+            <Link className="btn btn-secondary" to="/2fa-u2f-authorize">U2F Authorize</Link>
+            <Link className="btn btn-secondary" to="/oauth-create">Create OAuth Client</Link>
+            <Link className="btn btn-secondary" to="/oauth-authorize">Authorize OAuth</Link>
+            <button className="btn btn-secondary" onClick={logout}>Log out</button>
+        </div>
+        <div className="d-flex justify-content-center mt-5">
+            <div style={{width: '400px'}}>
+                <Switch>
+                    <Route path="/create" component={CreateUserPage} />
+                    <Route path="/login" component={LoginUserPage} />
+                    <Route path="/account" component={AccountPage} />
+                    <Route path="/2fa" component={SecondFactorPage} />
+                    <Route path="/2fa-u2f-register" component={FidoRegisterPage} />
+                    <Route path="/2fa-u2f-authorize" component={FidoAuthorizePage} />
+                    <Route path="/oauth-create" component={OAuthCreatePage} />
+                    <Route path="/oauth-authorize" component={OAuthAuthorizePage} />
+                </Switch>
+            </div>
+        </div>
     </div>
 );

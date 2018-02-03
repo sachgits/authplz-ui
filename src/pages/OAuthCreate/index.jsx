@@ -5,7 +5,10 @@ import validator from 'validator';
 import OAuthCreateView from './OAuthCreateView';
 import OAuthClientView from './OAuthClientView';
 
-import AuthPlz from '../../AuthPlz';
+import {
+    getOAuthOptions,
+    createOauthClient,
+} from '../../AuthPlz';
 
 // Validate the child component state
 const validateFields = (state) => {
@@ -25,7 +28,7 @@ const validateFields = (state) => {
         if ((typeof state.url === 'undefined') || (state.url.length === 0)) {
             errors.url = 'client url required';
         } else if (!validator.isURL(state.url)) {
-            errors.url = 'url must be of the form: https://authplz.herokuapp.com/auth';
+            errors.url = 'INVALID_URL';
         } else {
             delete errors.url;
         }
@@ -78,7 +81,7 @@ class OAuthCreatePage extends React.Component {
         }
 
 
-        return AuthPlz.CreateOauthClient(state.name, state.url, state.scopes, state.grants)
+        return createOauthClient(state.name, state.url, state.scopes, state.grants)
             .then((res) => {
                 this.setState({ client: res, clientLoaded: true });
             }, (res) => {
@@ -92,7 +95,7 @@ class OAuthCreatePage extends React.Component {
     }
 
     loadOptions() {
-        AuthPlz.GetOAuthOptions().then((res) => {
+        getOAuthOptions().then((res) => {
             console.log('Get oauth options');
             console.log(res);
             this.setState({

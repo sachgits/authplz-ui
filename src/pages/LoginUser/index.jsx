@@ -3,102 +3,87 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import TextInput from '../../components/TextInput';
-import AlertView from '../../components/AlertView';
-import AuthPlz from '../../AuthPlz';
+import { login } from '../../AuthPlz';
 
-const validate = (state) => {
-    const errors = {};
+import {
+    validateEmail,
+    validatePassword,
+} from './helpers';
+import { FormattedMessage } from 'react-intl';
 
-    // Errors shown after submitted state is set
-    if (state.submitted) {
-      // TODO: could / should? validate email existence here
-        if ((typeof state.email === 'undefined') || (state.email.length === 0)) {
-            errors.email = 'username required';
-        } else {
-            delete errors.email;
-        }
-
-        if ((typeof state.password === 'undefined') || (state.password.length === 0)) {
-            errors.password = 'password required';
-        } else {
-            delete errors.password;
-        }
-    }
-
-    return errors;
+const states = {
+    SUCCESS: 'SUCCESS',
 };
 
 class LoginUserPage extends React.Component {
     constructor(props) {
         super(props);
-    // Create form state
+
         this.state = {
             alert: '',
-            errors: {},
+            email: '',
+            password: '',
+            passwordError: null,
+            emailError: null,
         };
-
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleKeyPress(e) {
+    handleKeyPress = (e) => {
         if (e.key === 'Enter') {
-            this.handleSubmit(this.state);
+            this.onSubmit();
         }
     }
 
-    handleEmailChange(e) {
-        const state = this.state;
-        state.email = e.target.value;
-        this.setState({
-            email: e.target.value,
-            errors: validate(state)
-        });
+    handleEmailChange = (e) => {
+        const email = e.target.value;
+        this.setState(prevState => ({
+            email,
+            errors: prevState.emailError ?
+                validateEmail(email)
+                : null,
+        }));
     }
 
-    handlePasswordChange(e) {
-        const state = this.state;
-        state.password = e.target.value;
-        this.setState({
-            password: e.target.value,
-            errors: validate(this.state)
-        });
+    handlePasswordChange = (e) => {
+        const password = e.target.value;
+        this.setState(prevState => ({
+            password,
+            passwordError: prevState.passwordError != null
+                ? validatePassword(password)
+                : null,
+        }));
     }
 
-    handleSubmit() {
-        const state = this.state;
-        state.submitted = true;
-
-        const errors = validate(state);
-        this.setState({ submitted: true, errors });
-
-        if ((typeof errors === 'undefined') || (Object.keys(errors).length === 0)) {
-            AuthPlz.Login(state.email, state.password)
-                .then((res) => {
-                    console.log(res);
-                    this.setState({ alert: 'Login successful' });
-                }, () => {
-                    console.log('Login failed');
-                    this.setState({ alert: 'Login error: invalid email address or password' });
-                });
-        } else {
-            console.log(errors);
-        }
+    onSubmit = () => {
+        this.setState(prevState => ({
+            emailError: validateEmail(prevState.email),
+            passwordError: validatePassword(prevState.password),
+        }), () => {
+            const state = this.state;
+            if (state.emailError == null && state.usernameError == null) {
+                login({
+                    email: state.email,
+                    password: state.password
+                })
+                .then(res => this.setState({ status: states.SUCCESS }))
+                .catch(error => { this.setState({
+                    status: states.FAILED,
+                    error
+                }) });
+            }
+        });
     }
 
     render() {
         return (
-            <fieldset>
+            <fieldset onKeyDown={this.onKeyDown}>
                 <TextInput
                     id="email"
                     labelText="Email"
                     value={this.state.email}
                     onChange={this.handleEmailChange}
                     fullWidth
-                    errorText={this.state.errors.email}
-                    onKeyPress={this.handleKeyPress}
+                    errorText={this.state.emailError}
                 />
 
                 <TextInput
@@ -108,19 +93,22 @@ class LoginUserPage extends React.Component {
                     type="password"
                     onChange={this.handlePasswordChange}
                     fullWidth
-                    errorText={this.state.errors.password}
-                    onKeyPress={this.handleKeyPress}
+                    errorText={this.state.passwordError}
                 />
 
-                <AlertView alert={this.state.alert} />
+                {this.state.error != null && (
+                    <div className="text-danger">
+                        <FormattedMessage id={this.state.error} />
+                    </div>
+                )}
 
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <Link to="/create" className="btn btn-secondary">
-                        New user?
-                    </Link>
-                    <button onClick={this.handleSubmit} className="btn btn-primary">
+                <div className="flex-column align-items-center pt-2">
+                    <button onClick={this.onSubmit} className="btn btn-primary btn-block">
                         Login
                     </button>
+                    <Link to="/create" className="btn btn-link d-block mt-2">
+                        Create Account
+                    </Link>
                 </div>
             </fieldset>
         );

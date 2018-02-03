@@ -5,7 +5,10 @@ import { BeatLoader } from 'react-spinners';
 
 import AlertView from '../../components/AlertView';
 
-import AuthPlz from '../../AuthPlz';
+import {
+    getU2FTokenEnrolment,
+    postU2FTokenEnrolment
+} from '../../AuthPlz';
 import { u2f } from '../../lib/u2f-api';
 
 class FidoRegisterPage extends React.Component {
@@ -30,7 +33,7 @@ class FidoRegisterPage extends React.Component {
 
     onSubmit() {
     // Request registration
-        AuthPlz.GetU2FTokenEnrolment(this.state.name).then((req) => {
+        getU2FTokenEnrolment(this.state.name).then((req) => {
             console.log('Got registration request');
             console.log(req);
             u2f.register(req.appId,
@@ -83,7 +86,7 @@ class FidoRegisterPage extends React.Component {
         }
 
         // Return response to server
-        AuthPlz.PostU2FTokenEnrolment(resp).then(() => {
+        postU2FTokenEnrolment(resp).then(() => {
             console.log('Enrolment complete');
             this.setState({ done: true, stateIndex: 2 });
         }, (err) => {
