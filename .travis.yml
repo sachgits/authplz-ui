@@ -2,8 +2,8 @@ language: node_js
 sudo: false
 
 env:
-  - AUTHPLZ_API=""
-  - AUTHPLZ_API=https://authplz.herokuapp.com 
+  - REACT_APP_AUTHPLZ_API=""
+  - REACT_APP_AUTHPLZ_API=https://authplz.herokuapp.com 
 
 node_js:
   - node
@@ -27,7 +27,7 @@ deploy:
     repo: authplz/authplz-ui
     branch: master
     tags: true
-    condition: "\"$AUTHPLZ_API\" == \"\""
+    condition: "\"$REACT_APP_AUTHPLZ_API\" == \"\""
 - provider: pages
   local-dir: build
   skip_cleanup: true
@@ -38,7 +38,7 @@ deploy:
   on:
     repo: authplz/authplz-ui
     branch: master
-    condition: "\"$AUTHPLZ_API\" == \"https://authplz.herokuapp.com\""
+    condition: "\"$REACT_APP_AUTHPLZ_API\" == \"https://authplz.herokuapp.com\""
   
 
 notifications:
