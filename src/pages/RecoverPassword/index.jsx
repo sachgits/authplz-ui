@@ -137,18 +137,6 @@ class RecoverPasswordPage extends React.Component {
                     </Link>
                 </div>
             );
-        case states.INVALID_TOKEN:
-            return (
-                <div>
-                    <h3 className="mb-4">
-                        <FormattedMessage id="RECOVER_PASSWORD_INVALID_TOKEN_HEADER" />
-                    </h3>
-                    <FormattedMessage id="RECOVER_PASSWORD_INVALID_TOKEN" />
-                    <Link to="/forgotpassword" className="btn btn-primary btn-block mt-3">
-                        <FormattedMessage id="RECOVER_PASSWORD_FAIL_RETRY_BUTTON" />
-                    </Link>
-                </div>
-            )
         case states.STASIS:
             return (
                 <fieldset onKeyDown={this.onKeyDown}>
@@ -177,6 +165,19 @@ class RecoverPasswordPage extends React.Component {
                         <FormattedMessage id="PASSWORD_RESET_SUBMIT_BUTTON" />
                     </button>
                 </fieldset>
+            );
+        case states.INVALID_TOKEN:
+        default:
+            return (
+                <div>
+                    <h3 className="mb-4">
+                        <FormattedMessage id="RECOVER_PASSWORD_INVALID_TOKEN_HEADER" />
+                    </h3>
+                    <FormattedMessage id="RECOVER_PASSWORD_INVALID_TOKEN" />
+                    <Link to="/forgotpassword" className="btn btn-primary btn-block mt-3">
+                        <FormattedMessage id="RECOVER_PASSWORD_FAIL_RETRY_BUTTON" />
+                    </Link>
+                </div>
             );
         }
     }
