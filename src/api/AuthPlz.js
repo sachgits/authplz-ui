@@ -53,26 +53,14 @@ export const logout = () =>
 export const account = () =>
     getJson('/api/account');
 
-export const passwordReset = password =>
-    postForm('/api/reset', { password });
+export const passwordReset = data =>
+    postForm('/api/reset', data);
 
 export const accountRecovery = (email) =>
     postForm('/api/recovery', { email: encodeURI(email) });
 
-export const postAction = data => {
-    const params = new URLSearchParams(data);
-    return fetch(`${baseUrl}/api/action?${params.toString()}`, {
-        method: 'post',
-        credentials: 'include',
-    })
-        .then(resp => {
-            if (resp.ok) {
-                console.log(resp);
-                return resp;
-            }
-            throw new Error('Invalid');
-        });
-};
+export const getRecovery = data =>
+    getApi('/api/recovery', data)
 
     // 2FA things
 

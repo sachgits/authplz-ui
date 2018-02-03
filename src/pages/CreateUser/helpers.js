@@ -4,6 +4,8 @@ import {
     isEmail,
 } from 'validator';
 
+import zxcvbn from 'zxcvbn';
+
 import {
     usernameErrors,
     emailErrors,
@@ -31,7 +33,7 @@ export const validateEmail = email => {
 export const validatePassword = password => {
     if (password == null || password === '') {
         return passwordErrors.PASSWORD_EMPTY;
-    } else if (password.length < 12) {
+    } else if (zxcvbn(password).score < 4) {
         return passwordErrors.PASSWORD_INVALID;
     }
 }

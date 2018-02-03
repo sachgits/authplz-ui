@@ -14,8 +14,9 @@
     "react-scripts": "1.1.0",
     "react-spinners": "^0.2.5",
     "react-toggle-switch": "^3.0.4",
+    "snyk": "^1.69.6",
     "validator": "^9.3.0",
-    "snyk": "^1.69.6"
+    "zxcvbn": "^4.4.2"
   },
   "scripts": {
     "start": "cross-env react-scripts start",

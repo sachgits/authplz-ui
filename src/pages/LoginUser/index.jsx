@@ -10,6 +10,7 @@ import {
     validatePassword,
 } from './helpers';
 import { FormattedMessage } from 'react-intl';
+import { Redirect } from 'react-router';
 
 const states = {
     SUCCESS: 'SUCCESS',
@@ -75,6 +76,9 @@ class LoginUserPage extends React.Component {
     }
 
     render() {
+        if (this.state.status === states.SUCCESS) {
+            return <Redirect to="/account" />;
+        }
         return (
             <fieldset onKeyDown={this.onKeyDown}>
                 <TextInput

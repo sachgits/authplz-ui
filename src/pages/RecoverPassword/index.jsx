@@ -2,10 +2,11 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners';
 
 import TextInput from '../../components/TextInput';
 import {
-    postAction,
+    getRecovery,
     passwordReset,
 } from '../../api/AuthPlz';
 
@@ -13,14 +14,17 @@ import {
     validatePassword,
     validateConfirmPassword,
 } from './helpers';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 const states = {
     LOADING: 'LOADING',
     STASIS: 'STASIS',
     SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR',
+    INVALID_TOKEN: 'INVALID_TOKEN',
 };
 
-export default class RecoverPasswordPage extends React.Component {
+class RecoverPasswordPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -37,12 +41,13 @@ export default class RecoverPasswordPage extends React.Component {
     componentDidMount() {
         const params = new URLSearchParams(window.location.search);
         const recoveryToken = params.get('token');
-        postAction({ token: recoveryToken })
+        getRecovery({ token: recoveryToken })
             .then(() => this.setState({
                 status: states.STASIS,
             }))
             .catch(error => this.setState({
-                error
+                status: states.INVALID_TOKEN,
+                error,
             }));
     }
 
@@ -54,8 +59,13 @@ export default class RecoverPasswordPage extends React.Component {
             const state = this.state;
             if (state.passwordError == null && state.confirmPasswordError == null) {
                 passwordReset({ password: this.state.password })
-                    .then(response => this.setState({ result: response.message }))
-                    .catch(error => this.setState({ error }));
+                    .then(response => this.setState({
+                        status: states.SUCCESS
+                    }))
+                    .catch(error => this.setState({
+                        status: states.ERROR,
+                        error,
+                    }));
             }
         });
     }
@@ -97,36 +107,83 @@ export default class RecoverPasswordPage extends React.Component {
     }
 
     render() {
-        return (
-            <fieldset onKeyDown={this.onKeyDown}>
-                <h3>Enter a new password</h3>
-                <TextInput
-                  className="form-group"
-                  labelText="Password"
-                  value={this.state.password}
-                  onChange={this.onPasswordChange}
-                  errorText={this.state.passwordError}
-                  type="password"
-                />
-
-                <TextInput
-                  className="form-group"
-                  labelText="Confirm Password"
-                  value={this.state.confirmPassword}
-                  onChange={this.onConfirmPasswordChange}
-                  errorText={this.state.confirmPasswordError}
-                  type="password"
-                />
-
-                <div className="flex-column align-items-center pt-2">
-                    <button onClick={this.onSubmit} className="btn btn-primary btn-block">
-                        Create
-                    </button>
-                    <Link to="/login" className="btn btn-link d-block mt-2">
-                        Existing Account
+        const { intl } = this.props;
+        switch(this.state.status) {
+        case states.LOADING:
+            return (
+                <BeatLoader />
+            );
+        case states.SUCCESS:
+            return (
+                <div>
+                    <h3 className="mb-4">
+                        <FormattedMessage id="RECOVER_PASSWORD_SUCCESS_HEADER" />
+                    </h3>
+                    <FormattedMessage id="RECOVER_PASSWORD_SUCCESS" />
+                    <Link to="/login" className="btn btn-primary btn-block mt-3">
+                        <FormattedMessage id="RECOVER_PASSWORD_SUCCESS_LOGIN_BUTTON" />
                     </Link>
                 </div>
-            </fieldset>
-        );
+            );
+        case states.ERROR:
+            return (
+                <div>
+                    <h3 className="mb-4">
+                        <FormattedMessage id="RECOVER_PASSWORD_FAIL_HEADER" />
+                    </h3>
+                    <FormattedMessage id="RECOVER_PASSWORD_FAIL" />
+                    <Link to="/forgotpassword" className="btn btn-primary btn-block mt-3">
+                        <FormattedMessage id="RECOVER_PASSWORD_FAIL_RETRY_BUTTON" />
+                    </Link>
+                </div>
+            );
+        case states.INVALID_TOKEN:
+            return (
+                <div>
+                    <h3 className="mb-4">
+                        <FormattedMessage id="RECOVER_PASSWORD_INVALID_TOKEN_HEADER" />
+                    </h3>
+                    <FormattedMessage id="RECOVER_PASSWORD_INVALID_TOKEN" />
+                    <Link to="/forgotpassword" className="btn btn-primary btn-block mt-3">
+                        <FormattedMessage id="RECOVER_PASSWORD_FAIL_RETRY_BUTTON" />
+                    </Link>
+                </div>
+            )
+        case states.STASIS:
+            return (
+                <fieldset onKeyDown={this.onKeyDown}>
+                    <h3 className="mb-4">
+                        <FormattedMessage id="PASSWORD_RESEST_HEADER" />
+                    </h3>
+                    <TextInput
+                      className="form-group"
+                      labelText={intl.formatMessage({id: 'PASSWORD_LABEL'})}
+                      value={this.state.password}
+                      onChange={this.onPasswordChange}
+                      errorText={this.state.passwordError != null ? intl.formatMessage({id: this.state.passwordError}) : null}
+                      type="password"
+                    />
+
+                    <TextInput
+                      className="form-group"
+                      labelText={intl.formatMessage({id: 'CONFIRM_PASSWORD_LABEL'})}
+                      value={this.state.confirmPassword}
+                      onChange={this.onConfirmPasswordChange}
+                      errorText={this.state.confirmPasswordError != null ? intl.formatMessage({id: this.state.confirmPasswordError}) : null}
+                      type="password"
+                    />
+
+                    <button onClick={this.onSubmit} className="btn btn-primary btn-block mt-3">
+                        <FormattedMessage id="PASSWORD_RESET_SUBMIT_BUTTON" />
+                    </button>
+                </fieldset>
+            );
+        }
     }
 }
+
+RecoverPasswordPage.propTypes = {
+    intl: intlShape,
+};
+
+export default injectIntl(RecoverPasswordPage);
