@@ -27,7 +27,7 @@ deploy:
     repo: authplz/authplz-ui
     branch: master
     tags: true
-    condition: $AUTHPLZ_API=""
+    condition: "$AUTHPLZ_API = "
 - provider: pages
   local-dir: build
   skip_cleanup: true
@@ -38,7 +38,7 @@ deploy:
   on:
     repo: authplz/authplz-ui
     branch: master
-    condition: $AUTHPLZ_API=https://authplz.herokuapp.com 
+    condition: "$AUTHPLZ_API = https://authplz.herokuapp.com"
   
 
 notifications:
