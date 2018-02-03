@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import TextInput from '../../components/TextInput';
-import { login } from '../../AuthPlz';
+import { login } from '../../api/AuthPlz';
 
 import {
     validateEmail,
@@ -38,7 +38,7 @@ class LoginUserPage extends React.Component {
         const email = e.target.value;
         this.setState(prevState => ({
             email,
-            errors: prevState.emailError ?
+            emailError: prevState.emailError ?
                 validateEmail(email)
                 : null,
         }));
@@ -82,7 +82,6 @@ class LoginUserPage extends React.Component {
                     labelText="Email"
                     value={this.state.email}
                     onChange={this.handleEmailChange}
-                    fullWidth
                     errorText={this.state.emailError}
                 />
 
@@ -92,7 +91,6 @@ class LoginUserPage extends React.Component {
                     value={this.state.password}
                     type="password"
                     onChange={this.handlePasswordChange}
-                    fullWidth
                     errorText={this.state.passwordError}
                 />
 
@@ -106,9 +104,14 @@ class LoginUserPage extends React.Component {
                     <button onClick={this.onSubmit} className="btn btn-primary btn-block">
                         Login
                     </button>
-                    <Link to="/create" className="btn btn-link d-block mt-2">
-                        Create Account
-                    </Link>
+                    <div className="d-flex flex-row justify-content-center pt-2">
+                        <Link to="/create" className="btn btn-link mt-2">
+                            Create account
+                        </Link>
+                        <Link to="/forgotpassword" className="btn btn-link mt-2">
+                            Forgot password?
+                        </Link>
+                    </div>
                 </div>
             </fieldset>
         );

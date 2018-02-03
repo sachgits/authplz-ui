@@ -4,7 +4,10 @@ import React from 'react';
 import TextInput from '../../components/TextInput';
 import AlertView from '../../components/AlertView';
 
-import { createUser } from '../../api/AuthPlz';
+import {
+    createUser,
+
+} from '../../api/AuthPlz';
 import { Link } from 'react-router-dom';
 
 import {
@@ -14,44 +17,38 @@ import {
     validateConfirmPassword,
 } from './helpers';
 
-class CreateUserPage extends React.Component {
+const states = {
+    LOADING: 'LOADING',
+    STASIS: 'STASIS',
+    SUCCESS: 'SUCCESS',
+};
+
+export default class RecoverPasswordPage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            username: '',
-            email: '',
             password: '',
             confirmPassword: '',
-            usernameError: null,
-            emailError: null,
             passwordError: null,
             confirmPasswordError: null,
             result: null,
+            status: states.LOADING,
         };
+    }
+
+    componentDidMount() {
+        
     }
 
     onSubmit = () => {
         this.setState(prevState => ({
-            usernameError: validateUsername(prevState.username),
-            emailError: validateEmail(prevState.email),
             passwordError: validatePassword(prevState.password),
             confirmPasswordError: validateConfirmPassword(prevState.password, prevState.confirmPassword),
         }), () => {
             const state = this.state;
-            const formIsValid = (
-                state.usernameError == null
-                && state.emailError == null
-                && state.passwordError == null
-                && state.confirmPasswordError == null
-            );
-
-            if (formIsValid) {
-                createUser({
-                    email: this.state.email,
-                    username: this.state.username,
-                    password: this.state.password
-                })
+            if (state.passwordError == null && state.confirmPasswordError == null) {
+                createUser({ password: this.state.password })
                     .then(response => this.setState({ result: response.message }))
                     .catch(error => this.setState({ error }));
             }
@@ -62,32 +59,6 @@ class CreateUserPage extends React.Component {
         if (e.key === 'Enter') {
             this.onSubmit(this.state);
         }
-    }
-
-    onUsernameChange = (e) => {
-        const username = e.target.value;
-        this.setState(prevState => {
-            const usernameError = prevState.usernameError != null
-                ? validateUsername(username)
-                : null;
-            return {
-                usernameError,
-                username,
-            }
-        });
-    }
-
-    onEmailChange = (e) => {
-        const email = e.target.value;
-        this.setState(prevState => {
-            const emailError = prevState.emailError != null
-                ? validateEmail(email)
-                : null;
-            return {
-                emailError,
-                email,
-            }
-        });
     }
 
     onPasswordChange = (e) => {
@@ -123,22 +94,7 @@ class CreateUserPage extends React.Component {
     render() {
         return (
             <fieldset onKeyDown={this.onKeyDown}>
-                <TextInput
-                  className="form-group"
-                  labelText="Username"
-                  value={this.state.username}
-                  onChange={this.onUsernameChange}
-                  errorText={this.state.usernameError}
-                />
-
-                <TextInput
-                  className="form-group"
-                  labelText="Email"
-                  value={this.state.email}
-                  onChange={this.onEmailChange}
-                  errorText={this.state.emailError}
-                />
-
+                <h3>Enter a new password</h3>
                 <TextInput
                   className="form-group"
                   labelText="Password"
@@ -150,14 +106,12 @@ class CreateUserPage extends React.Component {
 
                 <TextInput
                   className="form-group"
-                  labelText="Password (again)"
+                  labelText="Confirm Password"
                   value={this.state.confirmPassword}
                   onChange={this.onConfirmPasswordChange}
                   errorText={this.state.confirmPasswordError}
                   type="password"
                 />
-
-                <AlertView alert={this.state.result} />
 
                 <div className="flex-column align-items-center pt-2">
                     <button onClick={this.onSubmit} className="btn btn-primary btn-block">
@@ -171,5 +125,3 @@ class CreateUserPage extends React.Component {
         );
     }
 }
-
-export default CreateUserPage;

@@ -9,7 +9,7 @@ import ScopeSelector from '../../components/ScopeSelector';
 import {
     getPendingAuthorization,
     postAuthorizationAccept,
-} from '../../AuthPlz';
+} from '../../api/AuthPlz';
 
 const states = {
     LOADING: 'LOADING',

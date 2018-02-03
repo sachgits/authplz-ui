@@ -8,7 +8,7 @@ import OAuthClientView from './OAuthClientView';
 import {
     getOAuthOptions,
     createOauthClient,
-} from '../../AuthPlz';
+} from '../../api/AuthPlz';
 
 // Validate the child component state
 const validateFields = (state) => {

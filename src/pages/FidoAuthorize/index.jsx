@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BeatLoader } from 'react-spinners';
 
-import { getU2FTokenAuthorize, postU2FTokenAuthorize } from '../../AuthPlz';
+import { getU2FTokenAuthorize, postU2FTokenAuthorize } from '../../api/AuthPlz';
 import { u2f } from '../../lib/u2f-api';
 
 class FidoAuthorizePage extends React.Component {

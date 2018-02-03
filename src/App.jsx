@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import './App.css';
-import { logout } from './AuthPlz';
+import { logout } from './api/AuthPlz';
 
 import CreateUserPage from './pages/CreateUser';
 import LoginUserPage from './pages/LoginUser';
@@ -15,6 +15,7 @@ import FidoAuthorizePage from './pages/FidoAuthorize';
 
 import OAuthCreatePage from './pages/OAuthCreate';
 import OAuthAuthorizePage from './pages/OAuthAuthorize';
+import ForgotPasswordPage from './pages/ForgotPassword';
 
 export default () => (
     <div>
@@ -28,6 +29,7 @@ export default () => (
             <Link className="btn btn-secondary" to="/oauth-create">Create OAuth Client</Link>
             <Link className="btn btn-secondary" to="/oauth-authorize">Authorize OAuth</Link>
             <button className="btn btn-secondary" onClick={logout}>Log out</button>
+            <Link className="btn btn-secondary" to="/forgotpassword">forgot password</Link>
         </div>
         <div className="d-flex justify-content-center mt-5">
             <div style={{width: '400px'}}>
@@ -40,6 +42,7 @@ export default () => (
                     <Route path="/2fa-u2f-authorize" component={FidoAuthorizePage} />
                     <Route path="/oauth-create" component={OAuthCreatePage} />
                     <Route path="/oauth-authorize" component={OAuthAuthorizePage} />
+                    <Route path="/forgotpassword" component={ForgotPasswordPage} />
                 </Switch>
             </div>
         </div>
