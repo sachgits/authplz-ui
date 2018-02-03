@@ -2,7 +2,7 @@ import React from 'react';
 
 import { FormattedRelative } from 'react-intl';
 
-import { account } from '../../AuthPlz';
+import { account } from '../../api/AuthPlz';
 import { Redirect } from 'react-router';
 
 export default class AccountPage extends React.Component {

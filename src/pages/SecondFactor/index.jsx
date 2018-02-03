@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SecondFactorPicker } from './SecondFactorPicker';
 
-// import AuthPlz from '../AuthPlz'
+// import AuthPlz from '../api/AuthPlz'
 
 const SecondFactorPage = () =>
     <div>

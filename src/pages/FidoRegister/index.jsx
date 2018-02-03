@@ -8,7 +8,7 @@ import AlertView from '../../components/AlertView';
 import {
     getU2FTokenEnrolment,
     postU2FTokenEnrolment
-} from '../../AuthPlz';
+} from '../../api/AuthPlz';
 import { u2f } from '../../lib/u2f-api';
 
 class FidoRegisterPage extends React.Component {

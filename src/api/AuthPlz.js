@@ -1,111 +1,11 @@
-/**
- * AuthPlz API Wrapper Library
- * Helpers to simplify writing frontends for the AuthPlz service
- */
-
-// import u2f from './u2f-api';
-import 'whatwg-fetch';
-import { REACT_APP_API_SERVER } from './const';
-
-const base = REACT_APP_API_SERVER || '';
-const credentials = 'include';
-
-
-const getJson = (path, params) => {
-    const queryParams = new URLSearchParams(params);
-    const queryString = `${base}${path}${queryParams.toString()}`
-
-    return fetch(queryString, {
-            method: 'get',
-            credentials: credentials,
-        })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            return res
-                .json()
-                .then(res => {
-                    throw res.code || 'UnkownError';
-                });
-        });
-}
-
-const getApi = (path, params) => {
-    let queryData = '?';
-    Object.keys(params).forEach((i) => {
-        queryData += `${i}=${params[i]}`;
-    });
-    return new Promise((resolve, reject) => {
-        // Call fetch
-        fetch(base + path + queryData, {
-            method: 'get',
-            credentials: credentials,
-        }).then(res => res.json())
-            .then((data) => {
-                if (data.result === 'ok') {
-                    resolve(data.message);
-                } else {
-                    reject(data.message);
-                }
-            }, (err) => {
-                console.log(`Failed to get from: ${base}${path} error: ${err}`);
-                reject('Communication error or bad request');
-            });
-    });
-}
-
-const postForm = (path, data) => {
-        const formData = new FormData();
-        console.log(data);
-        Object.keys(data).forEach((i) => {
-            formData.append(i, data[i]);
-        });
-
-        return fetch(`${base}${path}`, {
-            method: 'post',
-            credentials: credentials,
-            body: formData,
-        }).then(res => {
-            if (!res.ok) {
-                throw res.statusText;
-            }
-            return res.json();
-        }).then(response => {
-            if (response.code != null) {
-                throw response.code;
-            }
-            return response;
-        });
-    }
-
-const postJson = (path, data) => {
-    return new Promise((resolve, reject) => {
-        fetch(base + path, {
-            method: 'post',
-            credentials: credentials,
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        }).then(res => res.json())
-            .then((response) => {
-                if (typeof response.result !== 'undefined') {
-                    if (response.result === 'ok') {
-                        resolve(response.message);
-                    } else {
-                        reject(response.message);
-                    }
-                } else {
-                    resolve(response);
-                }
-            }, () => {
-                console.log(`Failed to post to: ${base}${path}`);
-                reject('Communication error or bad request');
-            });
-    });
-}
+import {
+    getApi,
+    getJson,
+    postForm,
+    postJson,
+    credentials,
+    baseUrl
+} from './helpers';
 
 const status = () => getApi('/api/status');
 
@@ -117,7 +17,7 @@ const login = ({ email, password }) => {
     formData.append('email', email);
     formData.append('password', password);
 
-    return fetch(`${base}/api/login`, {
+    return fetch(`${baseUrl}/api/login`, {
         method: 'post',
         credentials: credentials,
         body: formData,
@@ -134,19 +34,11 @@ const login = ({ email, password }) => {
             .json().then(data => {
             throw data.code || 'UNKNOWN_ERROR'
         });
-        // if (response.status === 400) {
-        //     return reject('Bad request');
-        // }
-        // if (response.status === 401) {
-        //     return reject('Email or password error');
-        // }
-
-        // return reject('Unknown login error');
     });
 }
 
 const logout = () =>
-    fetch(`${base}/api/logout`, {
+    fetch(`${baseUrl}/api/logout`, {
         method: 'post',
         credentials: credentials,
     })
@@ -164,7 +56,7 @@ const passwordReset = (oldPass, newPass) =>
     getJson('/api/u2f/enrol', { old_password: oldPass, new_password: newPass });
 
 const accountRecovery = (email) =>
-    getJson('/api/recovery', { email });
+    postForm('/api/recovery', { email: encodeURI(email) });
 
     // 2FA things
 
