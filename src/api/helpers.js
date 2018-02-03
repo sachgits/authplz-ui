@@ -28,11 +28,9 @@ export const getJson = (path, params) => {
 }
 
 export const getApi = (path, params) => {
-    let queryData = '?';
-    Object.keys(params).forEach((i) => {
-        queryData += `${i}=${params[i]}`;
-    });
-    return fetch(`${baseUrl}${path}${queryData}`, {
+    const queryParams = (new URLSearchParams(params)).toString();
+    const queryString = `${baseUrl}${path}?${queryParams}`
+    return fetch(queryString, {
             method: 'get',
             credentials: credentials,
         })

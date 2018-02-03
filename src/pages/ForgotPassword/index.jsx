@@ -29,7 +29,7 @@ class ForgotPasswordPage extends React.Component {
         };
     }
 
-    handleKeyPress = (e) => {
+    onKeyDown = (e) => {
         if (e.key === 'Enter') {
             this.onSubmit();
         }

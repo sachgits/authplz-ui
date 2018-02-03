@@ -16,6 +16,7 @@ import FidoAuthorizePage from './pages/FidoAuthorize';
 import OAuthCreatePage from './pages/OAuthCreate';
 import OAuthAuthorizePage from './pages/OAuthAuthorize';
 import ForgotPasswordPage from './pages/ForgotPassword';
+import RecoverPasswordPage from './pages/RecoverPassword';
 
 export default () => (
     <div>
@@ -43,6 +44,7 @@ export default () => (
                     <Route path="/oauth-create" component={OAuthCreatePage} />
                     <Route path="/oauth-authorize" component={OAuthAuthorizePage} />
                     <Route path="/forgotpassword" component={ForgotPasswordPage} />
+                    <Route path="/recover" component={RecoverPasswordPage} />
                 </Switch>
             </div>
         </div>
