@@ -1,18 +1,15 @@
 
 import React from 'react';
 
-import TextInput from '../../components/TextInput';
-import AlertView from '../../components/AlertView';
-
-import {
-    createUser,
-
-} from '../../api/AuthPlz';
 import { Link } from 'react-router-dom';
 
+import TextInput from '../../components/TextInput';
 import {
-    validateUsername,
-    validateEmail,
+    postAction,
+    passwordReset,
+} from '../../api/AuthPlz';
+
+import {
     validatePassword,
     validateConfirmPassword,
 } from './helpers';
@@ -38,7 +35,15 @@ export default class RecoverPasswordPage extends React.Component {
     }
 
     componentDidMount() {
-        
+        const params = new URLSearchParams(window.location.search);
+        const recoveryToken = params.get('token');
+        postAction({ token: recoveryToken })
+            .then(() => this.setState({
+                status: states.STASIS,
+            }))
+            .catch(error => this.setState({
+                error
+            }));
     }
 
     onSubmit = () => {
@@ -48,7 +53,7 @@ export default class RecoverPasswordPage extends React.Component {
         }), () => {
             const state = this.state;
             if (state.passwordError == null && state.confirmPasswordError == null) {
-                createUser({ password: this.state.password })
+                passwordReset({ password: this.state.password })
                     .then(response => this.setState({ result: response.message }))
                     .catch(error => this.setState({ error }));
             }
