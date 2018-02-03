@@ -1,6 +1,7 @@
 export default {
 	Unauthorized: 'Invalid email or password',
 	FORGOT_PASSWORD_HEADER: 'Reset password',
+	USERNAME_LABEL: 'Username',
 	EMAIL_LABEL: 'Email',
 	PASSWORD_LABEL: 'Password',
 	PASSWORD_EMPTY: 'Password is required',
@@ -18,5 +19,7 @@ export default {
 	RECOVER_PASSWORD_FAIL: 'Sorry, we were unable to reset your password',
 	RECOVER_PASSWORD_FAIL_RETRY_BUTTON: 'Retry',
 	RECOVER_PASSWORD_INVALID_TOKEN_HEADER: 'Invalid link',
-	RECOVER_PASSWORD_INVALID_TOKEN: 'Sorry, that link appears to be broken. Please try again.'
+	RECOVER_PASSWORD_INVALID_TOKEN: 'Sorry, that link appears to be broken. Please try again.',
+	CREATE_USER_SUBMIT_BUTTON: 'Sign up',
+	EXISTING_ACCOUNT_BUTTON: 'Existing account',
 };

@@ -1,11 +1,13 @@
 
 import React from 'react';
 
+import { Link } from 'react-router-dom';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+
 import TextInput from '../../components/TextInput';
 import AlertView from '../../components/AlertView';
 
 import { createUser } from '../../api/AuthPlz';
-import { Link } from 'react-router-dom';
 
 import {
     validateUsername,
@@ -121,11 +123,12 @@ class CreateUserPage extends React.Component {
     }
 
     render() {
+        const { intl } = this.props;
         return (
             <fieldset onKeyDown={this.onKeyDown}>
                 <TextInput
                   className="form-group"
-                  labelText="Username"
+                  labelText={intl.formatMessage({ id: 'USERNAME_LABEL' })}
                   value={this.state.username}
                   onChange={this.onUsernameChange}
                   errorText={this.state.usernameError}
@@ -133,7 +136,7 @@ class CreateUserPage extends React.Component {
 
                 <TextInput
                   className="form-group"
-                  labelText="Email"
+                  labelText={intl.formatMessage({ id: 'EMAIL_LABEL' })}
                   value={this.state.email}
                   onChange={this.onEmailChange}
                   errorText={this.state.emailError}
@@ -141,7 +144,7 @@ class CreateUserPage extends React.Component {
 
                 <TextInput
                   className="form-group"
-                  labelText="Password"
+                  labelText={intl.formatMessage({ id: 'PASSWORD_LABEL' })}
                   value={this.state.password}
                   onChange={this.onPasswordChange}
                   errorText={this.state.passwordError}
@@ -150,7 +153,7 @@ class CreateUserPage extends React.Component {
 
                 <TextInput
                   className="form-group"
-                  labelText="Password (again)"
+                  labelText={intl.formatMessage({ id: 'CONFIRM_PASSWORD_LABEL' })}
                   value={this.state.confirmPassword}
                   onChange={this.onConfirmPasswordChange}
                   errorText={this.state.confirmPasswordError}
@@ -161,10 +164,10 @@ class CreateUserPage extends React.Component {
 
                 <div className="flex-column align-items-center pt-2">
                     <button onClick={this.onSubmit} className="btn btn-primary btn-block">
-                        Create
+                        <FormattedMessage id="CREATE_USER_SUBMIT_BUTTON" />
                     </button>
                     <Link to="/login" className="btn btn-link d-block mt-2">
-                        Existing Account
+                        <FormattedMessage id="EXISTING_ACCOUNT_BUTTON" />
                     </Link>
                 </div>
             </fieldset>
@@ -172,4 +175,8 @@ class CreateUserPage extends React.Component {
     }
 }
 
-export default CreateUserPage;
+CreateUserPage.propTypes = {
+    intl: intlShape,
+};
+
+export default injectIntl(CreateUserPage);
