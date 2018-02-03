@@ -8,7 +8,10 @@ If you would like to be involved with this project, please first read (and agree
 
 ## Status
 
-Early WIP. Not very useful at all.
+
+[![GitHub tag](https://img.shields.io/github/tag/authplz/authplz-ui.svg)](https://github.com/authplz/authplz-ui)
+[![Build Status](https://travis-ci.org/authplz/authplz-ui.svg)](https://travis-ci.org/authplz/authplz-ui/branches)
+[![Chat](https://img.shields.io/gitter/room/gitterHQ/gitter.svg)](https://gitter.im/authplz/Lobby)
 
 ## Dependencies
 
