@@ -107,7 +107,11 @@ class RecoverPasswordPage extends React.Component {
     }
 
     render() {
-        const { intl } = this.props;
+        const {
+            intl,
+            buttonGroupClassName,
+            primaryButtonClassName,
+        } = this.props;
         switch(this.state.status) {
         case states.LOADING:
             return (
@@ -174,9 +178,11 @@ class RecoverPasswordPage extends React.Component {
                         <FormattedMessage id="RECOVER_PASSWORD_INVALID_TOKEN_HEADER" />
                     </h3>
                     <FormattedMessage id="RECOVER_PASSWORD_INVALID_TOKEN" />
-                    <Link to="/forgotpassword" className="btn btn-primary btn-block mt-3">
-                        <FormattedMessage id="RECOVER_PASSWORD_FAIL_RETRY_BUTTON" />
-                    </Link>
+                    <div className={buttonGroupClassName}>
+                        <Link to="/forgotpassword" className={primaryButtonClassName}>
+                            <FormattedMessage id="RECOVER_PASSWORD_FAIL_RETRY_BUTTON" />
+                        </Link>
+                    </div>
                 </div>
             );
         }

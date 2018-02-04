@@ -80,6 +80,9 @@ class FidoAuthorizePage extends React.Component {
     }
 
     render() {
+        const {
+            primaryButtonClassName
+        } = this.props;
         return (
             <div>
                 <p>Please insert your U2F / Fido token and press the button if available</p>
@@ -89,7 +92,7 @@ class FidoAuthorizePage extends React.Component {
                 <p hidden={!this.state.error}>{this.state.error}</p>
 
                 <div hidden={!this.state.retry}>
-                    <button className="btn btn-primary" onClick={this.onRetry}>
+                    <button className={primaryButtonClassName} onClick={this.onRetry}>
                         Retry
                     </button>
                 </div>

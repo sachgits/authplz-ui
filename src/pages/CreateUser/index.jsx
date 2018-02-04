@@ -1,5 +1,6 @@
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
@@ -25,6 +26,7 @@ class CreateUserPage extends React.Component {
             email: '',
             password: '',
             confirmPassword: '',
+            created: false,
             usernameError: null,
             emailError: null,
             passwordError: null,
@@ -33,12 +35,40 @@ class CreateUserPage extends React.Component {
         };
     }
 
+    validateUsername = username => {
+        const error = validateUsername(username);
+        return error != null
+            ? this.props.intl.formatMessage({ id: error })
+            : null;
+    }
+
+    validateEmail = email => {
+        const error = validateEmail(email);
+        return error != null
+            ? this.props.intl.formatMessage({ id: error })
+            : null;
+    }
+    
+    validatePassword = password => {
+        const error = validatePassword(password);
+        return error != null
+            ? this.props.intl.formatMessage({ id: error })
+            : null;
+    }
+
+    validateConfirmPassword = (password, confirmPassword) => {
+        const error = validateConfirmPassword(password, confirmPassword);
+        return error != null
+            ? this.props.intl.formatMessage({ id: error })
+            : null;
+    }
+
     onSubmit = () => {
         this.setState(prevState => ({
-            usernameError: validateUsername(prevState.username),
-            emailError: validateEmail(prevState.email),
-            passwordError: validatePassword(prevState.password),
-            confirmPasswordError: validateConfirmPassword(prevState.password, prevState.confirmPassword),
+            usernameError: this.validateUsername(prevState.username),
+            emailError: this.validateEmail(prevState.email),
+            passwordError: this.validatePassword(prevState.password),
+            confirmPasswordError: this.validateConfirmPassword(prevState.password, prevState.confirmPassword),
         }), () => {
             const state = this.state;
             const formIsValid = (
@@ -54,7 +84,9 @@ class CreateUserPage extends React.Component {
                     username: this.state.username,
                     password: this.state.password
                 })
-                    .then(response => this.setState({ result: response.message }))
+                    .then(response => this.setState({
+                        created: true,
+                    }))
                     .catch(error => this.setState({ error }));
             }
         });
@@ -70,7 +102,7 @@ class CreateUserPage extends React.Component {
         const username = e.target.value;
         this.setState(prevState => {
             const usernameError = prevState.usernameError != null
-                ? validateUsername(username)
+                ? this.validateUsername(username)
                 : null;
             return {
                 usernameError,
@@ -83,7 +115,7 @@ class CreateUserPage extends React.Component {
         const email = e.target.value;
         this.setState(prevState => {
             const emailError = prevState.emailError != null
-                ? validateEmail(email)
+                ? this.validateEmail(email)
                 : null;
             return {
                 emailError,
@@ -96,10 +128,10 @@ class CreateUserPage extends React.Component {
         const password = e.target.value;
         this.setState(prevState => {
             const passwordError = prevState.passwordError != null
-                ? validatePassword(password)
+                ? this.validatePassword(password)
                 : null;
             const confirmPasswordError = prevState.confirmPasswordError != null
-                ? validatePassword(password, prevState.confirmPassword)
+                ? this.validatePassword(password, prevState.confirmPassword)
                 : null;
             return {
                 passwordError,
@@ -113,7 +145,7 @@ class CreateUserPage extends React.Component {
         const confirmPassword = e.target.value;
         this.setState(prevState => {
             const confirmPasswordError = prevState.confirmPasswordError != null
-                ? validatePassword(prevState.password, confirmPassword)
+                ? this.validatePassword(prevState.password, confirmPassword)
                 : null;
             return {
                 confirmPasswordError,
@@ -123,50 +155,68 @@ class CreateUserPage extends React.Component {
     }
 
     render() {
-        const { intl } = this.props;
+        const {
+            intl,
+            inputClassNameMap,
+            buttonGroupClassName,
+            primaryButtonClassName,
+            secondaryButtonClassName,
+        } = this.props;
+        if (this.state.created) {
+            return (
+                <div>
+                    <h3>
+                        <FormattedMessage id="CREATE_USER_SUCCESS_HEADER" />
+                    </h3>
+                    <div>
+                        <FormattedMessage id="CREATE_USER_SUCCESS" />
+                    </div>
+                </div>
+            )
+        }
         return (
             <fieldset onKeyDown={this.onKeyDown}>
                 <TextInput
-                  className="form-group"
-                  labelText={intl.formatMessage({ id: 'USERNAME_LABEL' })}
-                  value={this.state.username}
-                  onChange={this.onUsernameChange}
-                  errorText={this.state.usernameError}
+                    classNameMap={inputClassNameMap}
+                    labelText={intl.formatMessage({ id: 'USERNAME_LABEL' })}
+                    value={this.state.username}
+                    onChange={this.onUsernameChange}
+                    errorText={this.state.usernameError}
                 />
 
                 <TextInput
-                  className="form-group"
-                  labelText={intl.formatMessage({ id: 'EMAIL_LABEL' })}
-                  value={this.state.email}
-                  onChange={this.onEmailChange}
-                  errorText={this.state.emailError}
+                    classNameMap={inputClassNameMap}
+                    labelText={intl.formatMessage({ id: 'EMAIL_LABEL' })}
+                    value={this.state.email}
+                    onChange={this.onEmailChange}
+                    errorText={this.state.emailError }
                 />
 
                 <TextInput
-                  className="form-group"
-                  labelText={intl.formatMessage({ id: 'PASSWORD_LABEL' })}
-                  value={this.state.password}
-                  onChange={this.onPasswordChange}
-                  errorText={this.state.passwordError}
-                  type="password"
+                    classNameMap={inputClassNameMap}
+                    labelText={intl.formatMessage({ id: 'PASSWORD_LABEL' })}
+                    value={this.state.password}
+                    onChange={this.onPasswordChange}
+                    errorText={this.state.passwordError }
+                    type="password"
                 />
 
                 <TextInput
-                  className="form-group"
-                  labelText={intl.formatMessage({ id: 'CONFIRM_PASSWORD_LABEL' })}
-                  value={this.state.confirmPassword}
-                  onChange={this.onConfirmPasswordChange}
-                  errorText={this.state.confirmPasswordError}
-                  type="password"
+                    classNameMap={inputClassNameMap}
+                    labelText={intl.formatMessage({ id: 'CONFIRM_PASSWORD_LABEL' })}
+                    value={this.state.confirmPassword}
+                    onChange={this.onConfirmPasswordChange}
+                    errorText={this.state.confirmPasswordError }
+                    type="password"
                 />
 
                 <AlertView alert={this.state.result} />
 
-                <div className="flex-column align-items-center pt-2">
-                    <button onClick={this.onSubmit} className="btn btn-primary btn-block">
+                <div className={buttonGroupClassName}>
+                    <button onClick={this.onSubmit} className={primaryButtonClassName}>
                         <FormattedMessage id="CREATE_USER_SUBMIT_BUTTON" />
                     </button>
-                    <Link to="/login" className="btn btn-link d-block mt-2">
+                    <Link to="/login" className={secondaryButtonClassName}>
                         <FormattedMessage id="EXISTING_ACCOUNT_BUTTON" />
                     </Link>
                 </div>
@@ -177,6 +227,10 @@ class CreateUserPage extends React.Component {
 
 CreateUserPage.propTypes = {
     intl: intlShape,
+    inputClassNameMap: PropTypes.object,
+    buttonGroupClassName: PropTypes.string,
+    primaryButtonClassName: PropTypes.string,
+    secondaryButtonClassName: PropTypes.string,
 };
 
 export default injectIntl(CreateUserPage);

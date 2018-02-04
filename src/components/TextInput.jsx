@@ -1,57 +1,47 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
 import cn from 'classnames';
 
 export default class TextInput extends PureComponent {
+	getClassName = element => {
+		const isInvalid = this.props.errorText != null;
+		const classNameMap = this.props.classNameMap;
+
+		return cn(classNameMap[element], {
+			[classNameMap.valid[element]]: !isInvalid,
+			[classNameMap.invalid[element]]: isInvalid,
+		});
+	}
+
 	render() {
 		const {
-			className,
-			inputClassName,
-			labelClassName,
 			labelText,
 			type,
 			value,
 			onChange,
-			subtextClass,
-			errorSubtextClass,
-			hintSubtextClass,
-			invalidInputClassName,
 			onKeyPress,
 			errorText,
 			hintText,
 		} = this.props;
-		const isInvalid = errorText != null;
 
-		const subtextClasses = cn(
-			subtextClass,
-			{
-				[errorSubtextClass]: isInvalid,
-				[hintSubtextClass]: !isInvalid,
-			}
-		);
-
-		const inputClassNames = cn(
-			inputClassName,
-			{
-				[invalidInputClassName]: isInvalid
-			}
-		)
-
-		const subtext = isInvalid && errorText != null ? errorText : hintText;
-
+		const subtext = errorText != null ? errorText : hintText;
+		const wrapperClassName = this.getClassName('wrapper');
+		const labelClassName = this.getClassName('label');
+		const inputClassName = this.getClassName('input');
+		const subtextClassName = this.getClassName('subtext');
+		
 		return (
-			<div className={className}>
+			<div className={wrapperClassName}>
 				<label className={labelClassName}>{labelText}</label>
 				<input
-					className={inputClassNames}
+					className={inputClassName}
 					value={value}
 					onChange={onChange}
 					onKeyPress={onKeyPress}
 					type={type}
 				/>
 				{subtext != null && (
-					<small className={subtextClasses}>
+					<small className={subtextClassName}>
 						{subtext}
 					</small>
 				)}
@@ -62,11 +52,18 @@ export default class TextInput extends PureComponent {
 
 TextInput.propTypes = {
 	/* Class for the top-level node */
-	className: PropTypes.string,
-	/* Class for the input */
-	inputClassName: PropTypes.string,
-	/* Class for the label */
-	labelClassName: PropTypes.string,
+	classNameMap: PropTypes.shape({
+		wrapper: PropTypes.string,
+		input: PropTypes.string,
+		label: PropTypes.string,
+		subtext: PropTypes.string,
+	}),
+	invalidClassNameMap: PropTypes.shape({
+		wrapper: PropTypes.string,
+		input: PropTypes.string,
+		label: PropTypes.string,
+		subtext: PropTypes.string,
+	}),
 	/* Label contents for the input */
 	labelText: PropTypes.string,
 	/* Value of the input */
@@ -79,21 +76,27 @@ TextInput.propTypes = {
 	errorText: PropTypes.string,
 	/* Text to show as a hint for the input */
 	hintText: PropTypes.string,
-	/* Class to apply to the text underneath inputs regardless of whether or not the input is invalid */
-	subtextClass: PropTypes.string,
-	/* Class to apply to the text underneath inputs if the input is invalid */
-	errorSubtextClass: PropTypes.string,
-	/* Class to apply to the text underneath inputs if the input is valid */
-	hintSubtextClass: PropTypes.string,
 	/* Callback function to be called on key press */
 	onKeyPress: PropTypes.func,
 };
 
 TextInput.defaultProps = {
-	className: 'form-group',
-	labelClassName: '',
-	inputClassName: 'form-control',
-	invalidInputClassName: 'is-invalid',
-	errorSubtextClass: 'invalid-feedback',
-	hintSubtextClass: 'form-text text-muted',
+	classNameMap: {
+		wrapper: '',
+		input: '',
+		label: '',
+		subtext: '',
+		valid: {
+			wrapper: '',
+			input: '',
+			label: '',
+			subtext: '',
+		},
+		invalid: {
+			wrapper: '',
+			input: '',
+			label: '',
+			subtext: '',
+		}
+	},
 }

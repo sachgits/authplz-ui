@@ -52,7 +52,7 @@ export default class OAuthAuthorizePage extends PureComponent {
             })
             .catch(error => {
                 this.setState({
-                    error: error || 'UnknownError',
+                    error: 'UnknownError',
                     status: states.FAILED,
                 });
             });
@@ -73,6 +73,11 @@ export default class OAuthAuthorizePage extends PureComponent {
     }
 
     render() {
+        const {
+            buttonGroupClassName,
+            primaryButtonClassName,
+            secondaryButtonClassName,
+        } = this.props;
         if (this.state.status === states.LOADING) {
             return (<BeatLoader />);
         } else if (this.state.status === states.FAILED) {
@@ -96,13 +101,13 @@ export default class OAuthAuthorizePage extends PureComponent {
                         onChange={this.onScopeToggle}
                     />
 
-                    <div className="d-flex justify-content-center">
-                        <Link className="btn btn-secondary" to="/">
-                            Cancel
-                        </Link>
-                        <button className="btn btn-primary" onClick={this.onSubmit}>
+                    <div className={buttonGroupClassName}>
+                        <button className={primaryButtonClassName} onClick={this.onSubmit}>
                             Authorize
                         </button>
+                        <Link className={secondaryButtonClassName} to="/">
+                            Cancel
+                        </Link>
                     </div>
                 </div>
             </div>

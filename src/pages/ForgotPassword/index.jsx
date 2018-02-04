@@ -75,10 +75,6 @@ class ForgotPasswordPage extends React.Component {
         const { intl } = this.props;
 
         switch(status) {
-        case states.FAILED:
-            return (
-                <FormattedMessage id="FORGOT_PASSWORD_EMAIL_FAILED" />
-            );
         case states.LOADING: 
             return (
                 <BeatLoader />
@@ -106,6 +102,11 @@ class ForgotPasswordPage extends React.Component {
                         onChange={this.handleEmailChange}
                         errorText={emailError}
                     />
+                    {status === states.FAILED && (
+                        <div className="text-danger">
+                            <FormattedMessage id="FORGOT_PASSWORD_EMAIL_FAILED" />
+                        </div>
+                    )}
                     <div className="flex-column align-items-center pt-2">
                         <button onClick={this.onSubmit} className="btn btn-primary btn-block">
                             <FormattedMessage id="FORGOT_PASSWORD_BUTTON_TEXT" />

@@ -106,16 +106,20 @@ class FidoRegisterPage extends React.Component {
     }
 
     render() {
+        const {
+            inputClassNameMap,
+            primaryButtonClassName,
+        } = this.props;
         const enterNameStep = (
             <div>
-                
                 <TextInput
+                    classNameMap={inputClassNameMap}
                     labelText="Enter a name for the new U2F Token"
                     value={this.state.name}
                     onChange={this.handleNameChange}
                 />
                 <AlertView alert={this.state.error} />
-                <button onClick={this.onSubmit} className="btn btn-primary">
+                <button onClick={this.onSubmit} className={primaryButtonClassName}>
                     Next
                 </button>
             </div>
@@ -134,7 +138,7 @@ class FidoRegisterPage extends React.Component {
                 </div>
                 <AlertView alert={this.state.error} />
                 <div hidden={!this.state.retry}>
-                    <button onClick={this.onRetry} className="btn btn-primary">
+                    <button onClick={this.onRetry} className={primaryButtonClassName}>
                         Retry
                     </button>
                 </div>
@@ -152,6 +156,7 @@ class FidoRegisterPage extends React.Component {
 
         return (
             <div>
+                <h3>Register U2F Token</h3>
                 {this.state.stateIndex === 0 && enterNameStep}
                 {this.state.stateIndex === 1 && securityKeyStep}
                 {this.state.stateIndex === 2 && registrationCompleteStep}
