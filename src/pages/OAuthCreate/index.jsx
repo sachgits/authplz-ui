@@ -115,18 +115,20 @@ class OAuthCreatePage extends React.Component {
             <div>
                 <div hidden={this.state.clientLoaded}>
                     <OAuthCreateView
-                      scopes={this.state.allowed_scopes}
-                      grants={this.state.grant_types}
-                      alert={this.state.error}
-                      errors={this.state.errors}
-                      validate={validateFields}
-                      onSubmit={this.onSubmit}
-                      onCancel={() => { console.log('Cancel not implemented'); }}
+                        {...this.props}
+                        scopes={this.state.allowed_scopes}
+                        grants={this.state.grant_types}
+                        alert={this.state.error}
+                        errors={this.state.errors}
+                        validate={validateFields}
+                        onSubmit={this.onSubmit}
+                        onCancel={() => { console.log('Cancel not implemented'); }}
                     />
                 </div>
                 <div hidden={!this.state.clientLoaded}>
                     <OAuthClientView
-                      client={this.state.client}
+                        {...this.props}
+                        client={this.state.client}
                     />
                 </div>
             </div>

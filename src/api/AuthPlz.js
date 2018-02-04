@@ -38,6 +38,9 @@ export const login = ({ email, password }) => {
     });
 }
 
+export const activateToken = data =>
+    getApi('/api/action', data);
+
 export const logout = () =>
     fetch(`${baseUrl}/api/logout`, {
         method: 'post',

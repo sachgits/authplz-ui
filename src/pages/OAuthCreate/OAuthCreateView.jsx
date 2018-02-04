@@ -57,11 +57,18 @@ class OAuthCreateView extends React.Component {
     }
 
     render() {
+        const {
+            primaryButtonClassName,
+            secondaryButtonClassName,
+            buttonGroupClassName,
+            inputClassNameMap,
+        } = this.props;
         return (
             <div>
                 <h1>OAuth Client Creation</h1>
 
                 <TextInput
+                    classNameMap={inputClassNameMap}
                     id="name"
                     labelText="Client Name"
                     value={this.state.name}
@@ -70,6 +77,7 @@ class OAuthCreateView extends React.Component {
                     errorText={this.props.errors.name}
                 />
                 <TextInput
+                    classNameMap={inputClassNameMap}
                     id="url"
                     labelText="Client URL (redirect)"
                     value={this.state.url}
@@ -80,27 +88,27 @@ class OAuthCreateView extends React.Component {
 
                 <h3>Scopes</h3>
                 <ScopeSelector
-                  scopes={this.props.scopes}
-                  default={false}
-                  onChange={this.handleScopeChange}
+                    scopes={this.props.scopes}
+                    default={false}
+                    onChange={this.handleScopeChange}
                 />
 
                 <h3>Grants</h3>
                 <ScopeSelector
-                  scopes={this.props.grants}
-                  default={false}
-                  onChange={this.handleGrantChange}
+                    scopes={this.props.grants}
+                    default={false}
+                    onChange={this.handleGrantChange}
                 />
 
                 <AlertView alert={this.props.alert} />
 
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <Link to="/" className="btn btn-secondary">
-                        Cancel
-                    </Link>
-                    <button onClick={this.handleSubmit} className="btn btn-primary">
+                <div className={buttonGroupClassName}>
+                    <button onClick={this.handleSubmit} className={primaryButtonClassName}>
                         Create
                     </button>
+                    <Link to="/" className={secondaryButtonClassName}>
+                        Cancel
+                    </Link>
                 </div>
             </div>
         );
